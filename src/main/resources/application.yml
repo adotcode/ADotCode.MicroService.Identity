@@ -1,0 +1,25 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/adc.ms.oauth2server?characterEncoding=utf8
+    username: root
+    password: risfeng@123!
+  profiles:
+    active: dev
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
+#mybatis sql语句控制台输出
+#mybatis:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# 日志配置
+
+
+
