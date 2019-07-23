@@ -63,7 +63,7 @@ public class PageResultWrapper<T> extends ResultWrapper<PageResultWrapper.PageRe
      * @param total     total items
      * @param pageIndex page index
      */
-    public PageResultWrapper(List<T> data, long total, long pageIndex) {
+    private PageResultWrapper(List<T> data, long total, long pageIndex) {
         super(new PageResultWrapper.PageResult<>(data, total, pageIndex, DEFAULT_PAGE_SIZE));
     }
 
@@ -75,21 +75,35 @@ public class PageResultWrapper<T> extends ResultWrapper<PageResultWrapper.PageRe
      * @param pageIndex page index
      * @param pageSize  page size
      */
-    public PageResultWrapper(List<T> data, long total, long pageIndex, long pageSize) {
+    private PageResultWrapper(List<T> data, long total, long pageIndex, long pageSize) {
         super(new PageResultWrapper.PageResult<>(data, total, pageIndex, pageSize));
     }
 
-    /***
-     * custom result code & message
-     * @param code code
-     * @param message message
-     * @param data list data
-     * @param total total items
+    /**
+     * success result
+     *
+     * @param data      list data
+     * @param total     total items
      * @param pageIndex page index
-     * @param pageSize page size
+     * @param <T>       T
+     * @return PageResultWrapper<T>
      */
-    public PageResultWrapper(String code, String message, List<T> data, long total, long pageIndex, long pageSize) {
-        super(code, message, new PageResultWrapper.PageResult<>(data, total, pageIndex, pageSize));
+    public static <T> PageResultWrapper<T> success(List<T> data, long total, long pageIndex) {
+        return new PageResultWrapper<>(data, total, pageIndex);
+    }
+
+    /**
+     * success result
+     *
+     * @param data      list data
+     * @param total     total items
+     * @param pageIndex page index
+     * @param pageSize  page size
+     * @param <T>       T
+     * @return PageResultWrapper<T>
+     */
+    public static <T> PageResultWrapper<T> success(List<T> data, long total, long pageIndex, long pageSize) {
+        return new PageResultWrapper<>(data, total, pageIndex, pageSize);
     }
 
 }

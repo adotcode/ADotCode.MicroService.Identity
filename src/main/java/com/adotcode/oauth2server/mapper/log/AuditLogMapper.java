@@ -1,6 +1,7 @@
 package com.adotcode.oauth2server.mapper.log;
 
 import org.apache.ibatis.annotations.SelectProvider;
+import org.springframework.stereotype.Repository;
 
 /**
  * 审计日志Mapper
@@ -9,6 +10,7 @@ import org.apache.ibatis.annotations.SelectProvider;
  * @version 1.0.0
  * @date 2019-07-15
  */
+@Repository
 public interface AuditLogMapper {
     /**
      * 通过Id获取浏览器信息

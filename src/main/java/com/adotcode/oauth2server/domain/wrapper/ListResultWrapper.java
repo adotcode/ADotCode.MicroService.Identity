@@ -24,7 +24,7 @@ public class ListResultWrapper<T> extends ResultWrapper<ListResultWrapper.ListRe
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class ListResult<T> {
+    static class ListResult<T> {
         /**
          * 列表数据集
          */
@@ -36,18 +36,18 @@ public class ListResultWrapper<T> extends ResultWrapper<ListResultWrapper.ListRe
      *
      * @param data 列表数据
      */
-    public ListResultWrapper(List<T> data) {
+    private ListResultWrapper(List<T> data) {
         super(new ListResultWrapper.ListResult<>(data));
     }
 
-    /***
-     * custom result code & message
-     * @param code code
-     * @param message message
-     * @param data list data
+    /**
+     * success result
+     *
+     * @param data data
+     * @param <T>  object T
+     * @return ResultWrapper<T>
      */
-    public ListResultWrapper(String code, String message, List<T> data) {
-        super(code, message, new ListResultWrapper.ListResult<>(data));
+    public static <T> ListResultWrapper<T> success(List<T> data) {
+        return new ListResultWrapper<>(data);
     }
-
 }

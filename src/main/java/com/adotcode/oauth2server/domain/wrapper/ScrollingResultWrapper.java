@@ -29,7 +29,7 @@ public class ScrollingResultWrapper<T> extends ResultWrapper<ScrollingResultWrap
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class ScrollingResult<T> {
+    static class ScrollingResult<T> {
         /**
          * 分页数据集
          */
@@ -52,7 +52,7 @@ public class ScrollingResultWrapper<T> extends ResultWrapper<ScrollingResultWrap
      * @param data      list data
      * @param nextToken next start position
      */
-    public ScrollingResultWrapper(List<T> data, String nextToken) {
+    private ScrollingResultWrapper(List<T> data, String nextToken) {
         super(new ScrollingResultWrapper.ScrollingResult<>(data, nextToken, DEFAULT_TAKE));
     }
 
@@ -63,21 +63,29 @@ public class ScrollingResultWrapper<T> extends ResultWrapper<ScrollingResultWrap
      * @param nextToken next start position
      * @param take      per get data count
      */
-    public ScrollingResultWrapper(List<T> data, String nextToken, long take) {
+    private ScrollingResultWrapper(List<T> data, String nextToken, long take) {
         super(new ScrollingResultWrapper.ScrollingResult<>(data, nextToken, take));
     }
 
     /**
-     * custom result code & message
+     * success result
      *
-     * @param code      code
-     * @param message   message
+     * @param data      list data
+     * @param nextToken next start position
+     */
+    public static <T> ScrollingResultWrapper<T> success(List<T> data, String nextToken) {
+        return new ScrollingResultWrapper<>(data, nextToken);
+    }
+
+    /**
+     * success result
+     *
      * @param data      list data
      * @param nextToken next start position
      * @param take      per get data count
      */
-    public ScrollingResultWrapper(String code, String message, List<T> data, String nextToken, long take) {
-        super(code, message, new ScrollingResultWrapper.ScrollingResult<>(data, nextToken, take));
+    public static <T> ScrollingResultWrapper<T> success(List<T> data, String nextToken, long take) {
+        return new ScrollingResultWrapper<>(data, nextToken, take);
     }
 }
 

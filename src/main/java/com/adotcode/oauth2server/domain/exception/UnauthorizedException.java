@@ -1,22 +1,22 @@
 package com.adotcode.oauth2server.domain.exception;
 
 /**
- * Null或空异常
+ * 用户没有权限异常（令牌、用户名、密码错误）
  *
  * @author risfeng
  * @version 1.0.0
  * @date 2019-07-21
  */
-public class NullOrEmptyException extends BaseException {
+public class UnauthorizedException extends BaseException {
 
     private static final long serialVersionUID = 6467571653798792346L;
-    private static final String DEFAULT_CODE = "NULL_OR_EMPTY";
-    private static final String DEFAULT_MESSAGE = "对象为Null或空.";
+    private static final String DEFAULT_CODE = "UNAUTHORIZED";
+    private static final String DEFAULT_MESSAGE = "用户未授权.";
 
     /**
-     * default message:参数为null或空
+     * default message:用户未授权
      */
-    public NullOrEmptyException() {
+    public UnauthorizedException() {
         super(DEFAULT_CODE, DEFAULT_MESSAGE);
     }
 
@@ -25,17 +25,17 @@ public class NullOrEmptyException extends BaseException {
      *
      * @param message message
      */
-    public NullOrEmptyException(String message) {
+    public UnauthorizedException(String message) {
         super(DEFAULT_CODE, message);
     }
 
     /**
-     * custom  code & message
+     * custom code & message
      *
      * @param code    code
      * @param message message
      */
-    public NullOrEmptyException(String code, String message) {
+    public UnauthorizedException(String code, String message) {
         super(code, message);
     }
 }

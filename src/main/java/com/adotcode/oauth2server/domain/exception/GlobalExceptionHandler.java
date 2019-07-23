@@ -28,9 +28,17 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
+    /**
+     * Constraint Violation Code
+     */
+    private final static String CONSTRAINT_VIOLATION_CODE = "CONSTRAINT_VIOLATION";
+    /**
+     * Method Argument Not Valid  Code
+     */
+    private final static String METHOD_ARGUMENT_NOT_VALID_CODE = "METHOD_ARGUMENT_NOT_VALID";
 
     /**
-     * 默认异常处理：内部错误
+     * 默认异常处理(未匹配到任何预知异常，服务器内部错误)
      *
      * @param request 请求体
      * @param e       异常
@@ -41,21 +49,35 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResultWrapper onException(HttpServletRequest request, Exception e) {
         log.error("服务器内部错误.", e);
-        return wrapperErrorResult(request, e.getMessage(), e);
+        return wrapperErrorResult(request, e);
     }
 
     /**
-     * 非法连接异常处理
+     * 用户未授权异常处理
      *
      * @param request 请求体
      * @param e       异常
      * @return 返回结果
      */
-    @ExceptionHandler(IllegalAccessException.class)
+    @ExceptionHandler(UnauthorizedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
-    public ResultWrapper onNotLoggedInException(HttpServletRequest request, IllegalAccessException e) {
-        return wrapperErrorResult(request, e.getMessage(), e);
+    public ResultWrapper onUnauthorizedException(HttpServletRequest request, UnauthorizedException e) {
+        return wrapperErrorResult(request, e);
+    }
+
+    /**
+     * 无权访问异常处理
+     *
+     * @param request 请求体
+     * @param e       异常
+     * @return 返回结果
+     */
+    @ExceptionHandler(ForbiddenException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseBody
+    public ResultWrapper onForbiddenException(HttpServletRequest request, ForbiddenException e) {
+        return wrapperErrorResult(request, e);
     }
 
     /**
@@ -69,7 +91,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ResultWrapper onNullOrEmptyException(HttpServletRequest request, NullOrEmptyException e) {
-        return wrapperErrorResult(request, e.getMessage(), e);
+        return wrapperErrorResult(request, e);
     }
 
     /**
@@ -83,7 +105,21 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ResultWrapper onIllegalPropertiesException(HttpServletRequest request, IllegalPropertiesException e) {
-        return wrapperErrorResult(request, e.getMessage(), e);
+        return wrapperErrorResult(request, e);
+    }
+
+    /**
+     * 非法参数异常
+     *
+     * @param request 请求体
+     * @param e       异常
+     * @return 返回结果
+     */
+    @ExceptionHandler(IllegalParameterException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ResultWrapper onIllegalParameterException(HttpServletRequest request, IllegalParameterException e) {
+        return wrapperErrorResult(request, e);
     }
 
     /**
@@ -94,7 +130,7 @@ public class GlobalExceptionHandler {
      * @return 返回结果
      */
     @ExceptionHandler(ConstraintViolationException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     @ResponseBody
     public ResultWrapper onConstraintViolationException(HttpServletRequest request, ConstraintViolationException e) {
         Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
@@ -102,9 +138,9 @@ public class GlobalExceptionHandler {
             String errorMessage = constraintViolations.stream()
                     .map(ConstraintViolation::getMessage)
                     .collect(Collectors.joining(";"));
-            return wrapperErrorResult(request, errorMessage, e);
+            return wrapperErrorResult(request, CONSTRAINT_VIOLATION_CODE, errorMessage, e);
         }
-        return wrapperErrorResult(request, e.getMessage(), e);
+        return wrapperErrorResult(request, e);
     }
 
     /**
@@ -115,7 +151,7 @@ public class GlobalExceptionHandler {
      * @return 返回结果
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     @ResponseBody
     public ResultWrapper resolveMethodArgumentNotValidException(HttpServletRequest request, MethodArgumentNotValidException e) {
         List<ObjectError> objectErrors = e.getBindingResult().getAllErrors();
@@ -123,12 +159,44 @@ public class GlobalExceptionHandler {
             String errorMessage = objectErrors.stream()
                     .map(ObjectError::getDefaultMessage)
                     .collect(Collectors.joining(";"));
-            return wrapperErrorResult(request, errorMessage, e);
+            return wrapperErrorResult(request, METHOD_ARGUMENT_NOT_VALID_CODE, errorMessage, e);
         }
-        return wrapperErrorResult(request, e.getMessage(), e);
+        return wrapperErrorResult(request, e);
     }
 
-    private ResultWrapper wrapperErrorResult(HttpServletRequest request, String message, Exception e) {
-        return new ResultWrapper("ERROR", message);
+    /**
+     * 错误信息返回辅助
+     *
+     * @param request 请求体
+     * @param e       Exception
+     * @return ResultWrapper
+     */
+    private ResultWrapper wrapperErrorResult(HttpServletRequest request, Exception e) {
+        return ResultWrapper.error(e);
     }
+
+    /**
+     * 错误信息返回辅助
+     *
+     * @param request 请求体
+     * @param code    错误代码
+     * @param message 错误消息
+     * @param e       异常
+     * @return ResultWrapper
+     */
+    private ResultWrapper wrapperErrorResult(HttpServletRequest request, String code, String message, Exception e) {
+        return ResultWrapper.error(code, message);
+    }
+
+    /**
+     * 错误信息返回辅助
+     *
+     * @param request 请求体
+     * @param e       BaseException
+     * @return ResultWrapper
+     */
+    private ResultWrapper wrapperErrorResult(HttpServletRequest request, BaseException e) {
+        return ResultWrapper.error(e);
+    }
+
 }

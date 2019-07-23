@@ -1,8 +1,5 @@
 package com.adotcode.oauth2server.domain.exception;
 
-import lombok.Getter;
-import lombok.Setter;
-
 /**
  * 非法参数异常
  *
@@ -10,21 +7,17 @@ import lombok.Setter;
  * @version 1.0.0
  * @date 2019-07-21
  */
-public class IllegalParameterException extends Exception {
+public class IllegalParameterException extends BaseException {
 
     private static final long serialVersionUID = 6467571653798792346L;
-    /**
-     * message
-     */
-    @Setter
-    @Getter
-    private String message;
+    private static final String DEFAULT_CODE = "ILLEGAL_PARAMETER";
+    private static final String DEFAULT_MESSAGE = "非法参数.";
 
     /**
      * default message:非法的属性
      */
     public IllegalParameterException() {
-        setMessage("非法参数.");
+        super(DEFAULT_CODE, DEFAULT_MESSAGE);
     }
 
     /**
@@ -33,6 +26,16 @@ public class IllegalParameterException extends Exception {
      * @param message 参数名
      */
     public IllegalParameterException(String message) {
-        this.message = String.format("参数[%s]非法.", message);
+        super(DEFAULT_CODE, String.format("参数[%s]非法.", message));
+    }
+
+    /**
+     * custom code & message
+     *
+     * @param code    code
+     * @param message message
+     */
+    public IllegalParameterException(String code, String message) {
+        super(code, message);
     }
 }

@@ -1,8 +1,8 @@
 package com.adotcode.oauth2server.controller;
 
 import com.adotcode.oauth2server.domain.exception.IllegalParameterException;
-import com.adotcode.oauth2server.domain.exception.NotLoggedInException;
 import com.adotcode.oauth2server.domain.exception.NullOrEmptyException;
+import com.adotcode.oauth2server.domain.exception.UnauthorizedException;
 import com.adotcode.oauth2server.domain.wrapper.ResultWrapper;
 import com.adotcode.oauth2server.mapper.log.AuditLogMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Min;
 import java.util.Date;
 
@@ -38,12 +37,11 @@ public class AuditLogController {
      * 通过Id查找浏览器信息
      *
      * @param id 日志Id
-     * @return 浏览器信息
+     * @return 浏览器信息 @Min(value = 2, message = "id最小值为2。")
      */
     @GetMapping("{id}/browserInfo")
     public ResultWrapper<String> findBrowserInfoById(
-            HttpServletRequest request,
-            @Min(value = 2, message = "id最小值为2。") @PathVariable("id") long id) throws Exception {
+            @Min(value = -2, message = "id最小值为-2。") @PathVariable("id") long id) {
         if (id == -1) {
             throw new NullOrEmptyException();
         }
@@ -51,10 +49,10 @@ public class AuditLogController {
             throw new IllegalParameterException("id");
         }
         if (id == 1) {
-            throw new NotLoggedInException();
+            throw new UnauthorizedException();
         }
         String result = auditLogMapper.findBrowserInfoById(id);
         log.error("This is an error message.[{}]", new Date());
-        return new ResultWrapper<>(result);
+        return ResultWrapper.success(result);
     }
 }
