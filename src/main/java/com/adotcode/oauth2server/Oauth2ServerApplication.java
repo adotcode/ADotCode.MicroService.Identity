@@ -14,8 +14,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @MapperScan("com.adotcode.oauth2server.mapper")
 public class Oauth2ServerApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(Oauth2ServerApplication.class, args);
-    }
+
+  public static void main(String[] args) {
+    SpringApplication.run(Oauth2ServerApplication.class, args);
+  }
 
 }

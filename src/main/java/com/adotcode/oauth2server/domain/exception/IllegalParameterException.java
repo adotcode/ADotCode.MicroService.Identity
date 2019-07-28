@@ -1,5 +1,7 @@
 package com.adotcode.oauth2server.domain.exception;
 
+import com.adotcode.oauth2server.domain.enums.ResultCodeEnum;
+
 /**
  * 非法参数异常
  *
@@ -9,33 +11,22 @@ package com.adotcode.oauth2server.domain.exception;
  */
 public class IllegalParameterException extends BaseException {
 
-    private static final long serialVersionUID = 6467571653798792346L;
-    private static final String DEFAULT_CODE = "ILLEGAL_PARAMETER";
-    private static final String DEFAULT_MESSAGE = "非法参数.";
+  private static final long serialVersionUID = 6467571653798792346L;
 
-    /**
-     * default message:非法的属性
-     */
-    public IllegalParameterException() {
-        super(DEFAULT_CODE, DEFAULT_MESSAGE);
-    }
+  /**
+   * default message:非法的属性
+   */
+  public IllegalParameterException() {
+    super(ResultCodeEnum.ILLEGAL_PARAMETER);
+  }
 
-    /**
-     * custom message
-     *
-     * @param message 参数名
-     */
-    public IllegalParameterException(String message) {
-        super(DEFAULT_CODE, String.format("参数[%s]非法.", message));
-    }
+  /**
+   * custom message
+   *
+   * @param message 参数名
+   */
+  public IllegalParameterException(String message) {
+    super(ResultCodeEnum.ILLEGAL_PARAMETER, String.format("参数[%s]非法.", message));
+  }
 
-    /**
-     * custom code & message
-     *
-     * @param code    code
-     * @param message message
-     */
-    public IllegalParameterException(String code, String message) {
-        super(code, message);
-    }
 }

@@ -1,10 +1,9 @@
 package com.adotcode.oauth2server.domain.wrapper;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 /**
  * 列表结果返回包装器
@@ -16,38 +15,39 @@ import java.util.List;
 @NoArgsConstructor
 public class ListResultWrapper<T> extends ResultWrapper<ListResultWrapper.ListResult<T>> {
 
-    /**
-     * 列表返回
-     *
-     * @param <T> entity type
-     */
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    static class ListResult<T> {
-        /**
-         * 列表数据集
-         */
-        private List<T> list;
-    }
+  /**
+   * 列表返回
+   *
+   * @param <T> entity type
+   */
+  @Data
+  @NoArgsConstructor
+  @AllArgsConstructor
+  static class ListResult<T> {
 
     /**
-     * 成功返回
-     *
-     * @param data 列表数据
+     * 列表数据集
      */
-    private ListResultWrapper(List<T> data) {
-        super(new ListResultWrapper.ListResult<>(data));
-    }
+    private List<T> list;
+  }
 
-    /**
-     * success result
-     *
-     * @param data data
-     * @param <T>  object T
-     * @return ResultWrapper<T>
-     */
-    public static <T> ListResultWrapper<T> success(List<T> data) {
-        return new ListResultWrapper<>(data);
-    }
+  /**
+   * 成功返回
+   *
+   * @param data 列表数据
+   */
+  private ListResultWrapper(List<T> data) {
+    super(new ListResultWrapper.ListResult<>(data));
+  }
+
+  /**
+   * ok result
+   *
+   * @param data data
+   * @param <T> object T
+   * @return ResultWrapper<T>
+   */
+  public static <T> ListResultWrapper<T> ok(List<T> data) {
+    return new ListResultWrapper<>(data);
+  }
 }

@@ -1,5 +1,7 @@
 package com.adotcode.oauth2server.domain.exception;
 
+import com.adotcode.oauth2server.domain.enums.ResultCodeEnum;
+
 /**
  * 非法属性异常
  *
@@ -9,33 +11,21 @@ package com.adotcode.oauth2server.domain.exception;
  */
 public class IllegalPropertiesException extends BaseException {
 
-    private static final long serialVersionUID = 6467571653798792346L;
-    private static final String DEFAULT_CODE = "ILLEGAL_PROPERTIES";
-    private static final String DEFAULT_MESSAGE = "非法的属性.";
+  private static final long serialVersionUID = 6467571653798792346L;
 
-    /**
-     * default message:非法的属性
-     */
-    public IllegalPropertiesException() {
-        super(DEFAULT_CODE, DEFAULT_MESSAGE);
-    }
+  /**
+   * default message:非法的属性
+   */
+  public IllegalPropertiesException() {
+    super(ResultCodeEnum.ILLEGAL_PROPERTIES);
+  }
 
-    /**
-     * custom message
-     *
-     * @param message 属性名
-     */
-    public IllegalPropertiesException(String message) {
-        super(DEFAULT_CODE, String.format("属性[%s]非法.", message));
-    }
-
-    /**
-     * custom code & message
-     *
-     * @param code    code
-     * @param message message
-     */
-    public IllegalPropertiesException(String code, String message) {
-        super(code, message);
-    }
+  /**
+   * custom message
+   *
+   * @param message 属性名
+   */
+  public IllegalPropertiesException(String message) {
+    super(ResultCodeEnum.ILLEGAL_PROPERTIES, String.format("属性[%s]非法.", message));
+  }
 }

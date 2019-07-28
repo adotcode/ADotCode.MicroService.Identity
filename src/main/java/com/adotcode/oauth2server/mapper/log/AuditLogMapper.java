@@ -12,13 +12,14 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface AuditLogMapper {
-    /**
-     * 通过Id获取浏览器信息
-     *
-     * @param id id
-     * @return 浏览器信息
-     */
-    @SelectProvider(type = AuditLogSqlProvider.class, method = "findBrowserInfoById")
-    public String findBrowserInfoById(long id);
+
+  /**
+   * 通过Id获取浏览器信息
+   *
+   * @param id id
+   * @return 浏览器信息
+   */
+  @SelectProvider(type = AuditLogSqlProvider.class, method = "findBrowserInfoById")
+  public String findBrowserInfoById(long id);
 }
 

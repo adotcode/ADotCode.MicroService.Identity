@@ -1,10 +1,10 @@
 package com.adotcode.oauth2server.domain.wrapper;
 
+import com.adotcode.oauth2server.domain.enums.ResultCodeEnum;
 import com.adotcode.oauth2server.domain.exception.BaseException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatus;
 
 /**
  * 普通结果返回包装器
@@ -18,126 +18,161 @@ import org.springframework.http.HttpStatus;
 @NoArgsConstructor
 public class ResultWrapper<T> {
 
-    /**
-     * success code
-     */
-    private static final String SUCCESS_CODE = HttpStatus.OK.name();
+  @Data
+  @NoArgsConstructor
+  @AllArgsConstructor
+  public static class Error {
 
     /**
-     * error code
+     * 资源标示
      */
-    private static final String ERROR_CODE = HttpStatus.EXPECTATION_FAILED.name();
+    private String uri;
 
     /**
-     * result code
+     * 错误详情
      */
-    private String code;
+    private Object message;
+  }
 
-    /**
-     * result message
-     */
-    private String message;
+  /**
+   * result code
+   */
+  private String code;
 
-    /**
-     * time stamp millis(js中long型会造成精度损失)
-     */
-    private final String timestamp = String.valueOf(System.currentTimeMillis());
+  /**
+   * result message
+   */
+  private String message;
 
-    /**
-     * result data
-     */
-    private T data;
+  /**
+   * time stamp millis(js中long型会造成精度损失)
+   */
+  private final String timestamp = String.valueOf(System.currentTimeMillis());
 
-    /**
-     * data construction
-     *
-     * @param data data
-     */
-    ResultWrapper(T data) {
-        this.code = SUCCESS_CODE;
-        this.message = SUCCESS_CODE;
-        this.data = data;
-    }
+  /**
+   * result data
+   */
+  private T data;
 
-    /**
-     * no data result
-     *
-     * @param code    code
-     * @param message message
-     */
-    private ResultWrapper(String code, String message) {
-        this.code = code;
-        this.message = message;
-    }
+  /**
+   * error details
+   */
+  private Error error;
 
-    /**
-     * success result
-     *
-     * @return ResultWrapper
-     */
-    public static ResultWrapper success() {
-        return new ResultWrapper(SUCCESS_CODE, SUCCESS_CODE);
-    }
+  /**
+   * data construction
+   *
+   * @param data data
+   */
+  ResultWrapper(T data) {
+    this.code = ResultCodeEnum.SUCCESS.value();
+    this.message = ResultCodeEnum.SUCCESS.getReasonPhrase();
+    this.data = data;
+  }
 
-    /**
-     * success result
-     *
-     * @param data data
-     * @param <T>  object T
-     * @return ResultWrapper<T>
-     */
-    public static <T> ResultWrapper<T> success(T data) {
-        return new ResultWrapper<>(SUCCESS_CODE, SUCCESS_CODE, data);
-    }
+  /**
+   * no data result
+   *
+   * @param code code
+   */
+  private ResultWrapper(ResultCodeEnum code) {
+    this.code = code.value();
+    this.message = code.getReasonPhrase();
+  }
 
-    /**
-     * 错误结果返回
-     *
-     * @return ResultWrapper
-     */
-    public static ResultWrapper error() {
-        return new ResultWrapper(ERROR_CODE, ERROR_CODE);
-    }
+  /**
+   * no data result
+   *
+   * @param code code
+   * @param message message
+   */
+  private ResultWrapper(String code, String message, Error error) {
+    this.code = code;
+    this.message = message;
+    this.error = error;
+  }
 
-    /**
-     * 错误结果返回
-     *
-     * @param message error message
-     * @return ResultWrapper
-     */
-    public static ResultWrapper error(String message) {
-        return new ResultWrapper(ERROR_CODE, message);
-    }
+  /**
+   * no data result
+   *
+   * @param code code
+   * @param message custom message
+   */
+  private ResultWrapper(ResultCodeEnum code, String message) {
+    this.code = code.value();
+    this.message = message;
+  }
 
-    /**
-     * 错误结果返回
-     *
-     * @param e Exception
-     * @return ResultWrapper
-     */
-    public static ResultWrapper error(Exception e) {
-        return new ResultWrapper(ERROR_CODE, e.getMessage());
-    }
 
-    /**
-     * 错误结果返回
-     *
-     * @param e BaseException
-     * @return ResultWrapper
-     */
-    public static ResultWrapper error(BaseException e) {
-        return new ResultWrapper(e.getCode(), e.getMessage());
-    }
+  /**
+   * error result
+   *
+   * @param code ResultCodeEnum
+   * @param error error
+   */
+  private ResultWrapper(ResultCodeEnum code, Error error) {
+    this.code = code.value();
+    this.message = code.getReasonPhrase();
+    this.error = error;
+  }
 
-    /**
-     * 错误结果返回
-     *
-     * @param code    error code
-     * @param message message
-     * @return ResultWrapper
-     */
-    public static ResultWrapper error(String code, String message) {
-        return new ResultWrapper(code, message);
-    }
+  /**
+   * ok result
+   *
+   * @return ResultWrapper
+   */
+  public static ResultWrapper ok() {
+    return new ResultWrapper(ResultCodeEnum.SUCCESS);
+  }
+
+  /**
+   * ok result
+   *
+   * @param data data
+   * @param <T> object T
+   * @return ResultWrapper<T>
+   */
+  public static <T> ResultWrapper<T> ok(T data) {
+    return new ResultWrapper<>(ResultCodeEnum.SUCCESS.value(),
+        ResultCodeEnum.SUCCESS.getReasonPhrase(), data, null);
+  }
+
+  /**
+   * 错误结果返回
+   *
+   * @return ResultWrapper
+   */
+  public static ResultWrapper error() {
+    return new ResultWrapper(ResultCodeEnum.ERROR, ResultCodeEnum.ERROR.getReasonPhrase());
+  }
+
+  /**
+   * 错误结果返回
+   *
+   * @return ResultWrapper
+   */
+  public static ResultWrapper error(Error error) {
+    return new ResultWrapper(ResultCodeEnum.ERROR, error);
+  }
+
+  /**
+   * 错误结果返回
+   *
+   * @return ResultWrapper
+   */
+  public static ResultWrapper error(ResultCodeEnum code, Error error) {
+    return new ResultWrapper(code, error);
+  }
+
+
+  /**
+   * 错误结果返回
+   *
+   * @param e BaseException
+   * @return ResultWrapper
+   */
+  public static ResultWrapper error(BaseException e, Error error) {
+    return new ResultWrapper(e.getCode(), e.getMessage(), error);
+  }
 
 }

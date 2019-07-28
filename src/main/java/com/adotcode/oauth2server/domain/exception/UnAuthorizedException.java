@@ -3,21 +3,21 @@ package com.adotcode.oauth2server.domain.exception;
 import com.adotcode.oauth2server.domain.enums.ResultCodeEnum;
 
 /**
- * Null或空异常
+ * 用户没有权限异常（令牌、用户名、密码错误）
  *
  * @author risfeng
  * @version 1.0.0
  * @date 2019-07-21
  */
-public class NullOrEmptyException extends BaseException {
+public class UnAuthorizedException extends BaseException {
 
   private static final long serialVersionUID = 6467571653798792346L;
 
   /**
-   * default message:参数为null或空
+   * default message:用户未授权
    */
-  public NullOrEmptyException() {
-    super(ResultCodeEnum.NULL_OR_EMPTY);
+  public UnAuthorizedException() {
+    super(ResultCodeEnum.UNAUTHORIZED);
   }
 
   /**
@@ -25,8 +25,7 @@ public class NullOrEmptyException extends BaseException {
    *
    * @param message message
    */
-  public NullOrEmptyException(String message) {
-    super(ResultCodeEnum.NULL_OR_EMPTY, message);
+  public UnAuthorizedException(String message) {
+    super(ResultCodeEnum.UNAUTHORIZED, message);
   }
-
 }
