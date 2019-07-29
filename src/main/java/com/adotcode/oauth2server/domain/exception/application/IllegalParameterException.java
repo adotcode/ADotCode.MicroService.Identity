@@ -1,4 +1,4 @@
-package com.adotcode.oauth2server.domain.exception;
+package com.adotcode.oauth2server.domain.exception.application;
 
 import com.adotcode.oauth2server.domain.enums.ResultCodeEnum;
 
@@ -21,12 +21,12 @@ public class IllegalParameterException extends BaseException {
   }
 
   /**
-   * custom message
+   * custom parameterName
    *
-   * @param message 参数名
+   * @param parameterName 参数名
    */
-  public IllegalParameterException(String message) {
-    super(ResultCodeEnum.ILLEGAL_PARAMETER, String.format("参数[%s]非法.", message));
+  public IllegalParameterException(String parameterName) {
+    super(ResultCodeEnum.ILLEGAL_PARAMETER, String.format("参数[%s]非法.", parameterName));
   }
 
 }

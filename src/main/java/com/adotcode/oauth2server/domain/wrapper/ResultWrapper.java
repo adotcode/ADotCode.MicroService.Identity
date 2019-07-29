@@ -1,7 +1,7 @@
 package com.adotcode.oauth2server.domain.wrapper;
 
 import com.adotcode.oauth2server.domain.enums.ResultCodeEnum;
-import com.adotcode.oauth2server.domain.exception.BaseException;
+import com.adotcode.oauth2server.domain.exception.application.BaseException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +24,7 @@ public class ResultWrapper<T> {
   public static class Error {
 
     /**
-     * 资源标示
+     * 资源标识
      */
     private String uri;
 

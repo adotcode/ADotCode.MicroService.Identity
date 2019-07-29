@@ -1,11 +1,11 @@
-package com.adotcode.oauth2server.domain.exception;
+package com.adotcode.oauth2server.domain.exception.application;
 
 import com.adotcode.oauth2server.domain.enums.ResultCodeEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 基础异常抽象类
+ * 基础异常抽象类(未检查异常,代码简洁，一些流行的Java框架（Spring或Hibernate）甚至其他语言根本不使用已检查的异常)
  *
  * @author risfeng
  * @version 1.0.0
@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public abstract class BaseException extends Exception {
+public abstract class BaseException extends RuntimeException {
 
   private static final long serialVersionUID = 9053394735482735363L;
 

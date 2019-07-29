@@ -17,6 +17,12 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 @Configuration
 public class JacksonConfig {
 
+  /**
+   * Json 序列化配置
+   *
+   * @param builder Jackson2ObjectMapperBuilder builder
+   * @return ObjectMapper
+   */
   @Bean
   @Primary
   @ConditionalOnMissingBean(ObjectMapper.class)

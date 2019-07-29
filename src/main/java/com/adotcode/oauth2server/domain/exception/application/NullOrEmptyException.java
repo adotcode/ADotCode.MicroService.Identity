@@ -1,4 +1,4 @@
-package com.adotcode.oauth2server.domain.exception;
+package com.adotcode.oauth2server.domain.exception.application;
 
 import com.adotcode.oauth2server.domain.enums.ResultCodeEnum;
 

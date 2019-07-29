@@ -1,9 +1,9 @@
 package com.adotcode.oauth2server.controller;
 
-import com.adotcode.oauth2server.domain.exception.GenericException;
-import com.adotcode.oauth2server.domain.exception.IllegalParameterException;
-import com.adotcode.oauth2server.domain.exception.NullOrEmptyException;
-import com.adotcode.oauth2server.domain.exception.UnAuthorizedException;
+import com.adotcode.oauth2server.domain.exception.application.GenericException;
+import com.adotcode.oauth2server.domain.exception.application.IllegalParameterException;
+import com.adotcode.oauth2server.domain.exception.application.NullOrEmptyException;
+import com.adotcode.oauth2server.domain.exception.application.UnAuthorizedException;
 import com.adotcode.oauth2server.domain.wrapper.ResultWrapper;
 import com.adotcode.oauth2server.mapper.log.AuditLogMapper;
 import java.util.Date;
@@ -42,8 +42,7 @@ public class AuditLogController {
    */
   @GetMapping("{id}/browserInfo")
   public ResultWrapper<String> findBrowserInfoById(
-      @Min(value = -2, message = "id最小值为-2。") @PathVariable("id") long id)
-      throws NullOrEmptyException, IllegalParameterException, UnAuthorizedException, GenericException {
+      @Min(value = -2, message = "id最小值为-2。") @PathVariable("id") long id) {
     if (id == -1) {
       throw new NullOrEmptyException();
     }

@@ -1,4 +1,4 @@
-package com.adotcode.oauth2server.domain.exception;
+package com.adotcode.oauth2server.domain.exception.application;
 
 import com.adotcode.oauth2server.domain.enums.ResultCodeEnum;
 
@@ -21,11 +21,11 @@ public class IllegalPropertiesException extends BaseException {
   }
 
   /**
-   * custom message
+   * custom propertiesName
    *
-   * @param message 属性名
+   * @param propertiesName 属性名
    */
-  public IllegalPropertiesException(String message) {
-    super(ResultCodeEnum.ILLEGAL_PROPERTIES, String.format("属性[%s]非法.", message));
+  public IllegalPropertiesException(String propertiesName) {
+    super(ResultCodeEnum.ILLEGAL_PROPERTIES, String.format("属性[%s]非法.", propertiesName));
   }
 }

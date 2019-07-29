@@ -1,6 +1,13 @@
 package com.adotcode.oauth2server.domain.exception;
 
 import com.adotcode.oauth2server.domain.enums.ResultCodeEnum;
+import com.adotcode.oauth2server.domain.exception.application.BaseException;
+import com.adotcode.oauth2server.domain.exception.application.ForbiddenException;
+import com.adotcode.oauth2server.domain.exception.application.GenericException;
+import com.adotcode.oauth2server.domain.exception.application.IllegalParameterException;
+import com.adotcode.oauth2server.domain.exception.application.IllegalPropertiesException;
+import com.adotcode.oauth2server.domain.exception.application.NullOrEmptyException;
+import com.adotcode.oauth2server.domain.exception.application.UnAuthorizedException;
 import com.adotcode.oauth2server.domain.wrapper.ResultWrapper;
 import com.adotcode.oauth2server.domain.wrapper.ResultWrapper.Error;
 import java.util.List;
@@ -136,7 +143,7 @@ public class GlobalExceptionHandler {
           .stream()
           .map(ConstraintViolation::getMessage)
           .collect(Collectors.toList());
-      return wrapperErrorResult(request, ResultCodeEnum.CONSTRAINT_VIOLATION, errorMessage, e);
+      return wrapperErrorResult(request, ResultCodeEnum.CONSTRAINT_VIOLATION, errorMessage);
     }
     return wrapperErrorResult(request, e);
   }
@@ -159,7 +166,7 @@ public class GlobalExceptionHandler {
           .stream()
           .map(ObjectError::getDefaultMessage)
           .collect(Collectors.toList());
-      return wrapperErrorResult(request, ResultCodeEnum.METHOD_ARGUMENT_NOT_VALID, errorMessage, e);
+      return wrapperErrorResult(request, ResultCodeEnum.METHOD_ARGUMENT_NOT_VALID, errorMessage);
     }
     return wrapperErrorResult(request, e);
   }
@@ -196,11 +203,10 @@ public class GlobalExceptionHandler {
    * @param request 请求体
    * @param code 错误代码
    * @param errorObj 错误消息描述
-   * @param e 异常
    * @return ResultWrapper
    */
   private ResultWrapper wrapperErrorResult(HttpServletRequest request, ResultCodeEnum code,
-      Object errorObj, Exception e) {
+      Object errorObj) {
     Error error = new ResultWrapper.Error(request.getRequestURI(), errorObj);
     return ResultWrapper.error(code, error);
   }
