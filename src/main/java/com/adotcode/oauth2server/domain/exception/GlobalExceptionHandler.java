@@ -1,6 +1,6 @@
 package com.adotcode.oauth2server.domain.exception;
 
-import com.adotcode.oauth2server.domain.enums.ResultCodeEnum;
+import com.adotcode.oauth2server.domain.enums.result.ResultCodeEnum;
 import com.adotcode.oauth2server.domain.exception.application.BaseException;
 import com.adotcode.oauth2server.domain.exception.application.ForbiddenException;
 import com.adotcode.oauth2server.domain.exception.application.GenericException;
@@ -10,6 +10,7 @@ import com.adotcode.oauth2server.domain.exception.application.NullOrEmptyExcepti
 import com.adotcode.oauth2server.domain.exception.application.UnAuthorizedException;
 import com.adotcode.oauth2server.domain.wrapper.ResultWrapper;
 import com.adotcode.oauth2server.domain.wrapper.ResultWrapper.Error;
+import com.adotcode.oauth2server.util.i18n.I18nMessageUtils;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -19,7 +20,7 @@ import javax.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.CollectionUtils;
-import org.springframework.validation.ObjectError;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -141,7 +142,7 @@ public class GlobalExceptionHandler {
     if (!CollectionUtils.isEmpty(constraintViolations)) {
       List<String> errorMessage = constraintViolations
           .stream()
-          .map(ConstraintViolation::getMessage)
+          .map(error -> I18nMessageUtils.locale(error.getMessage()))
           .collect(Collectors.toList());
       return wrapperErrorResult(request, ResultCodeEnum.CONSTRAINT_VIOLATION, errorMessage);
     }
@@ -160,11 +161,14 @@ public class GlobalExceptionHandler {
   @ResponseBody
   public ResultWrapper resolveMethodArgumentNotValidException(HttpServletRequest request,
       MethodArgumentNotValidException e) {
-    List<ObjectError> objectErrors = e.getBindingResult().getAllErrors();
+    List<FieldError> objectErrors = e.getBindingResult().getFieldErrors();
     if (!CollectionUtils.isEmpty(objectErrors)) {
       List<String> errorMessage = objectErrors
           .stream()
-          .map(ObjectError::getDefaultMessage)
+          .map(error ->
+              String.format("[%s]%s",
+                  error.getField(),
+                  I18nMessageUtils.locale(error.getDefaultMessage(), error.getArguments())))
           .collect(Collectors.toList());
       return wrapperErrorResult(request, ResultCodeEnum.METHOD_ARGUMENT_NOT_VALID, errorMessage);
     }
@@ -193,7 +197,8 @@ public class GlobalExceptionHandler {
    * @return ResultWrapper
    */
   private ResultWrapper wrapperErrorResult(HttpServletRequest request, Exception e) {
-    Error error = new ResultWrapper.Error(request.getRequestURI(), e.getMessage());
+    Error error = new ResultWrapper.Error(request.getRequestURI(),
+        I18nMessageUtils.locale(e.getMessage()));
     return ResultWrapper.error(error);
   }
 
@@ -219,7 +224,8 @@ public class GlobalExceptionHandler {
    * @return ResultWrapper
    */
   private ResultWrapper wrapperErrorResult(HttpServletRequest request, BaseException e) {
-    Error error = new ResultWrapper.Error(request.getRequestURI(), e.getMessage());
+    Error error = new ResultWrapper.Error(request.getRequestURI(),
+        I18nMessageUtils.locale(e.getMessage()));
     return ResultWrapper.error(e, error);
   }
 

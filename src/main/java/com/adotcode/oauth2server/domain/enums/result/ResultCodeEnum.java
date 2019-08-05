@@ -1,4 +1,4 @@
-package com.adotcode.oauth2server.domain.enums;
+package com.adotcode.oauth2server.domain.enums.result;
 
 import org.springframework.lang.Nullable;
 
@@ -13,47 +13,47 @@ public enum ResultCodeEnum {
   /**
    * ok
    */
-  SUCCESS("OK", "Success"),
+  SUCCESS("OK", "result.code.ok"),
 
   /**
    * error
    */
-  ERROR("ERROR", "Error"),
+  ERROR("ERROR", "result.code.error"),
 
   /**
    * 无权访问.
    */
-  FORBIDDEN("FORBIDDEN", "无权访问."),
+  FORBIDDEN("FORBIDDEN", "result.code.forbidden"),
 
   /**
    * 用户未授权.
    */
-  UNAUTHORIZED("UNAUTHORIZED", "用户未授权."),
+  UNAUTHORIZED("UNAUTHORIZED", "result.code.unauthorized"),
 
   /**
    * 非法参数.
    */
-  ILLEGAL_PARAMETER("ILLEGAL_PARAMETER", "非法参数."),
+  ILLEGAL_PARAMETER("ILLEGAL_PARAMETER", "result.code.illegalParameter"),
 
   /**
    * 非法的属性.
    */
-  ILLEGAL_PROPERTIES("ILLEGAL_PROPERTIES", "非法的属性."),
+  ILLEGAL_PROPERTIES("ILLEGAL_PROPERTIES", "result.code.illegalProperties"),
 
   /**
    * 对象为Null或空.
    */
-  NULL_OR_EMPTY("NULL_OR_EMPTY", "对象为Null或空."),
+  NULL_OR_EMPTY("NULL_OR_EMPTY", "result.code.nullOrEmpty"),
 
   /**
    * 约束冲突 （@Valid）
    */
-  CONSTRAINT_VIOLATION("CONSTRAINT_VIOLATION", "约束冲突."),
+  CONSTRAINT_VIOLATION("CONSTRAINT_VIOLATION", "result.code.constraintViolation"),
 
   /**
    * 参数验证不通过（@Valid）
    */
-  METHOD_ARGUMENT_NOT_VALID("METHOD_ARGUMENT_NOT_VALID", "参数验证不通过.");
+  METHOD_ARGUMENT_NOT_VALID("METHOD_ARGUMENT_NOT_VALID", "result.code.methodArgumentNotValid");
 
 
   /**

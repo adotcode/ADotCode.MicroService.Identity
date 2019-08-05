@@ -1,6 +1,6 @@
 package com.adotcode.oauth2server.domain.exception.application;
 
-import com.adotcode.oauth2server.domain.enums.ResultCodeEnum;
+import com.adotcode.oauth2server.domain.enums.result.ResultCodeEnum;
 
 /**
  * 用户没有权限异常（令牌、用户名、密码错误）

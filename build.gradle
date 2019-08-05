@@ -36,11 +36,8 @@ dependencies {
     testCompile group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter-test', version: '2.0.1'
     compile group: 'com.github.pagehelper', name: 'pagehelper-spring-boot-starter', version: '1.2.12'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
-
-//    compile group: 'ch.qos.logback', name: 'logback-classic'
-//    compile group: 'ch.qos.logback', name: 'logback-core'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest'
 
     compile 'io.sentry:sentry-logback:1.7.23'
 
-    compile group: 'com.qiniu', name: 'qiniu-logging-plugin-logback', version: '1.0.0'
 }

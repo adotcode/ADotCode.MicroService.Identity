@@ -1,6 +1,6 @@
 package com.adotcode.oauth2server.domain.exception.application;
 
-import com.adotcode.oauth2server.domain.enums.ResultCodeEnum;
+import com.adotcode.oauth2server.domain.enums.result.ResultCodeEnum;
 
 /**
  * 禁止访问异常处理

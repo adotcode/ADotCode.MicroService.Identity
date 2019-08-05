@@ -1,7 +1,8 @@
 package com.adotcode.oauth2server.domain.wrapper;
 
-import com.adotcode.oauth2server.domain.enums.ResultCodeEnum;
+import com.adotcode.oauth2server.domain.enums.result.ResultCodeEnum;
 import com.adotcode.oauth2server.domain.exception.application.BaseException;
+import com.adotcode.oauth2server.util.i18n.I18nMessageUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ResultWrapper<T> {
 
+  /**
+   * 错误信息
+   */
   @Data
   @NoArgsConstructor
   @AllArgsConstructor
@@ -66,7 +70,7 @@ public class ResultWrapper<T> {
    */
   ResultWrapper(T data) {
     this.code = ResultCodeEnum.SUCCESS.value();
-    this.message = ResultCodeEnum.SUCCESS.getReasonPhrase();
+    this.message = I18nMessageUtils.locale(ResultCodeEnum.SUCCESS.getReasonPhrase());
     this.data = data;
   }
 
@@ -77,7 +81,7 @@ public class ResultWrapper<T> {
    */
   private ResultWrapper(ResultCodeEnum code) {
     this.code = code.value();
-    this.message = code.getReasonPhrase();
+    this.message = I18nMessageUtils.locale(code.getReasonPhrase());
   }
 
   /**
@@ -88,7 +92,7 @@ public class ResultWrapper<T> {
    */
   private ResultWrapper(String code, String message, Error error) {
     this.code = code;
-    this.message = message;
+    this.message = I18nMessageUtils.locale(message);
     this.error = error;
   }
 
@@ -100,7 +104,7 @@ public class ResultWrapper<T> {
    */
   private ResultWrapper(ResultCodeEnum code, String message) {
     this.code = code.value();
-    this.message = message;
+    this.message = I18nMessageUtils.locale(message);
   }
 
 
@@ -112,7 +116,7 @@ public class ResultWrapper<T> {
    */
   private ResultWrapper(ResultCodeEnum code, Error error) {
     this.code = code.value();
-    this.message = code.getReasonPhrase();
+    this.message = I18nMessageUtils.locale(code.getReasonPhrase());
     this.error = error;
   }
 

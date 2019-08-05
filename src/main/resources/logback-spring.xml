@@ -1,71 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="60 seconds">
 
-    <property name="LOG_HOME" value="${user.dir}/logs/"/>
-    <property name="APP_NAME" value="oauth2-server"/>
+  <property name="LOG_HOME" value="${user.dir}/logs/"/>
+  <property name="APP_NAME" value="oauth2-server"/>
 
-    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+  <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+  <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
-    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_HOME}/${APP_NAME}-%d{yyyy-MM-dd}.log</fileNamePattern>
-            <maxHistory>30</maxHistory>
-        </rollingPolicy>
-        <encoder>
-            <pattern>${FILE_LOG_PATTERN}</pattern>
-        </encoder>
-    </appender>
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${LOG_HOME}/${APP_NAME}-%d{yyyy-MM-dd}.log</fileNamePattern>
+      <maxHistory>30</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${FILE_LOG_PATTERN}</pattern>
+    </encoder>
+  </appender>
 
-    <appender name="Sentry" class="io.sentry.logback.SentryAppender">
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>ERROR</level>
-        </filter>
-    </appender>
+  <appender name="Sentry" class="io.sentry.logback.SentryAppender">
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>ERROR</level>
+    </filter>
+  </appender>
 
-    <!--    <appender name="qiniu" class="com.qiniu.appender.LogbackQiniuAppender">-->
-    <!--        <pipelineHost>https://pipeline.qiniu.com</pipelineHost>-->
-    <!--        <logdbHost>https://logdb.qiniu.com</logdbHost>-->
-    <!--        <workflowName>logdemo1</workflowName>-->
-    <!--        <workflowDesc>log demo 1</workflowDesc>-->
-    <!--        <workflowRegion>nb</workflowRegion>-->
-    <!--        <pipelineRepo>pipe1</pipelineRepo>-->
-    <!--        <logdbRepo>logdb1</logdbRepo>-->
-    <!--        <logdbRetention>30d</logdbRetention>-->
-    <!--        <autoFlushInterval>10</autoFlushInterval>-->
-    <!--        <accessKey>ak</accessKey>-->
-    <!--        <secretKey>sk</secretKey>-->
-    <!--        <logCacheDir>${LOG_HOME}</logCacheDir>-->
-    <!--        <logRotateInterval>60</logRotateInterval>-->
-    <!--        <logRetryInterval>60</logRetryInterval>-->
-    <!--        <logPushThreadPoolSize>20</logPushThreadPoolSize>-->
-    <!--        <logPushConnectTimeout>10</logPushConnectTimeout>-->
-    <!--        <logPushReadTimeout>30</logPushReadTimeout>-->
-    <!--        <logPushWriteTimeout>60</logPushWriteTimeout>-->
-    <!--        <logRetryThreadPoolSize>10</logRetryThreadPoolSize>-->
-    <!--        <logRetryConnectTimeout>10</logRetryConnectTimeout>-->
-    <!--        <logRetryReadTimeout>30</logRetryReadTimeout>-->
-    <!--        <logRetryWriteTimeout>60</logRetryWriteTimeout>-->
-    <!--    </appender>-->
+  <!--环境设置-->
+  <springProfile name="dev">
+    <root>
+      <appender-ref level="INFO" ref="CONSOLE"/>
+      <appender-ref level="ERROR" ref="Sentry"/>
+    </root>
+  </springProfile>
 
-    <!--    <logger name="org.springframework.data.mongodb.core.MongoTemplate" level="debug"/>-->
-    <!--    <logger name="org.springframework.data.repository.config" level="WARN"/>-->
-    <!--    <logger name="com.adotcode.oauth2server" level="ERROR"/>-->
-
-    <!--环境设置-->
-    <springProfile name="dev">
-        <root>
-            <appender-ref level="INFO" ref="CONSOLE"/>
-            <appender-ref level="ERROR" ref="Sentry"/>
-        </root>
-    </springProfile>
-
-    <springProfile name="prod,test">
-        <root level="DEBUG">
-            <appender-ref ref="FILE"/>
-            <appender-ref ref="Sentry"/>
-        </root>
-    </springProfile>
+  <springProfile name="prod,test">
+    <root level="DEBUG">
+      <appender-ref ref="FILE"/>
+      <appender-ref ref="Sentry"/>
+    </root>
+  </springProfile>
 
 </configuration>
 
