@@ -40,8 +40,9 @@ public class I18nMessageUtils {
    * @param args string format 参数 eg:String[] params= new String[]{“tom”, “today”}
    * @return locale message eg:tom Good morning today
    */
-  public static String locale(String msgCode, Object[] args) {
+  public static String locale(String msgCode, Object... args) {
     Locale locale = LocaleContextHolder.getLocale();
     return messageSource.getMessage(msgCode, args, locale);
   }
+
 }

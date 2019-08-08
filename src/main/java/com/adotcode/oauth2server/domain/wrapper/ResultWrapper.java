@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
  * @date 2019-07-14
  */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class ResultWrapper<T> {
 
@@ -117,6 +116,21 @@ public class ResultWrapper<T> {
   private ResultWrapper(ResultCodeEnum code, Error error) {
     this.code = code.value();
     this.message = I18nMessageUtils.locale(code.getReasonPhrase());
+    this.error = error;
+  }
+
+  /**
+   * data result
+   *
+   * @param code code
+   * @param message message
+   * @param data data
+   * @param error error
+   */
+  private ResultWrapper(String code, String message, T data, Error error) {
+    this.code = code;
+    this.message = I18nMessageUtils.locale(message);
+    this.data = data;
     this.error = error;
   }
 

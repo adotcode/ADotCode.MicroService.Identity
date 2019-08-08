@@ -22,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -159,7 +160,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(MethodArgumentNotValidException.class)
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   @ResponseBody
-  public ResultWrapper resolveMethodArgumentNotValidException(HttpServletRequest request,
+  public ResultWrapper onMethodArgumentNotValidException(HttpServletRequest request,
       MethodArgumentNotValidException e) {
     List<FieldError> objectErrors = e.getBindingResult().getFieldErrors();
     if (!CollectionUtils.isEmpty(objectErrors)) {
@@ -173,6 +174,24 @@ public class GlobalExceptionHandler {
       return wrapperErrorResult(request, ResultCodeEnum.METHOD_ARGUMENT_NOT_VALID, errorMessage);
     }
     return wrapperErrorResult(request, e);
+  }
+
+
+  /**
+   * Request Parameter 异常处理
+   *
+   * @param request 请求体
+   * @param e 异常
+   * @return 返回结果
+   */
+  @ExceptionHandler(MissingServletRequestParameterException.class)
+  @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+  @ResponseBody
+  public ResultWrapper onMissingServletRequestParameterException(HttpServletRequest request,
+      MissingServletRequestParameterException e) {
+    GenericException genericException = new GenericException(
+        I18nMessageUtils.locale("exception.parameter.required.not.present", e.getParameterName()));
+    return wrapperErrorResult(request, genericException);
   }
 
   /**

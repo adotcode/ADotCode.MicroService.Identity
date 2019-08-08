@@ -17,6 +17,10 @@ pagehelper:
   support-methods-arguments: true
   params: count=countSql
 
+json:
+  date-format: yyyy-MM-dd HH:mm:ss
+
+
 #mybatis sql语句控制台输出
 #mybatis:
 #  configuration:

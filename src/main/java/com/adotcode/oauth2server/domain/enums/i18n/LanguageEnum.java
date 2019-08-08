@@ -1,5 +1,7 @@
 package com.adotcode.oauth2server.domain.enums.i18n;
 
+import lombok.Getter;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.util.StringUtils;
 
 /**
@@ -8,8 +10,8 @@ import org.springframework.util.StringUtils;
  * @author risfeng
  * @date 2019/07/30
  */
+@Getter
 public enum LanguageEnum {
-
   /**
    * 美式英文
    */
@@ -19,6 +21,8 @@ public enum LanguageEnum {
    * 简体中文
    */
   LANGUAGE_ZH_CN("zh_CN");
+
+  private static final String SPLIT_CHAR = "_";
 
   /**
    * 语言类型
@@ -44,5 +48,44 @@ public enum LanguageEnum {
       }
     }
     return LANGUAGE_ZH_CN.language;
+  }
+
+  /**
+   * 获取lang编码，eg：en_US 返回：en
+   *
+   * @return lang eg：en
+   */
+  public String getLang() {
+    return getLocale()[0];
+  }
+
+  /**
+   * 获取lang编码，eg：en_US 返回：en
+   *
+   * @return lang eg：en
+   */
+  public String getCountry() {
+    return getLocale()[1];
+  }
+
+  /**
+   * 获取lang编码，eg：en_US 返回：en
+   *
+   * @return lang eg：en
+   */
+  public boolean currentLocale() {
+    return language.equals(LocaleContextHolder.getLocale().toString());
+  }
+
+  /**
+   * 获取lang和country编码，eg：en_US 返回：["en","US"]
+   *
+   * @return lang eg：["en","US"]
+   */
+  private String[] getLocale() {
+    if (!language.contains(SPLIT_CHAR)) {
+      return new String[]{language, ""};
+    }
+    return language.split(SPLIT_CHAR);
   }
 }
