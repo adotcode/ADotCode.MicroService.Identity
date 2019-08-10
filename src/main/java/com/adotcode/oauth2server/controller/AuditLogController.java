@@ -56,7 +56,7 @@ public class AuditLogController {
       throw new GenericException("通用异常");
     }
     String result = auditLogMapper.findBrowserInfoById(id);
-    log.error("This is an error message.[{}]", new Date());
+    log.error("This is an errorWrapper message.[{}]", new Date());
     return ResultWrapper.ok(result);
   }
 }

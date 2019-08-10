@@ -1,5 +1,6 @@
 package com.adotcode.oauth2server.service.application;
 
+import com.adotcode.oauth2server.domain.dto.response.application.LanguageMessageSourceResponse;
 import com.adotcode.oauth2server.domain.dto.response.application.LanguageResponse;
 import java.util.List;
 
@@ -17,4 +18,11 @@ public interface I18nService {
    * @return List<LanguageResponse>
    */
   List<LanguageResponse> getLanguages();
+
+  /**
+   * 获取语言资源列表
+   *
+   * @return LanguageMessageSourceResponse
+   */
+  LanguageMessageSourceResponse getLocaleMessageResources();
 }

@@ -1,5 +1,8 @@
 package com.adotcode.oauth2server.config;
 
+import com.alibaba.fastjson.PropertyNamingStrategy;
+import com.alibaba.fastjson.parser.Feature;
+import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
@@ -36,6 +39,11 @@ public class JsonConfig {
     FastJsonConfig fastJsonConfig = new FastJsonConfig();
     //设置格式化日期
     fastJsonConfig.setDateFormat(dateFormat);
+    //特性设置
+    fastJsonConfig.setFeatures(
+        Feature.OrderedField,
+        Feature.IgnoreNotMatch
+    );
     //设置序列化时特性
     fastJsonConfig.setSerializerFeatures(
         SerializerFeature.PrettyFormat,
@@ -43,6 +51,10 @@ public class JsonConfig {
         SerializerFeature.WriteDateUseDateFormat,
         SerializerFeature.WriteEnumUsingToString
     );
+    //序列化设置
+    SerializeConfig serializeConfig = SerializeConfig.globalInstance;
+    serializeConfig.propertyNamingStrategy = PropertyNamingStrategy.SnakeCase;
+    fastJsonConfig.setSerializeConfig(serializeConfig);
     //中文乱码处理
     ArrayList<MediaType> fastMediaTypes = new ArrayList<>();
     fastMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);

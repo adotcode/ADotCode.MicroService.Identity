@@ -36,9 +36,9 @@ public abstract class BaseException extends RuntimeException {
    * @param code {@code ResultCodeEnum} ResultCodeEnum
    */
   BaseException(ResultCodeEnum code) {
-    super(code.getReasonPhrase());
+    super(code.reasonPhrase());
     this.code = code.value();
-    this.message = code.getReasonPhrase();
+    this.message = code.reasonPhrase();
   }
 
   /**
@@ -60,6 +60,6 @@ public abstract class BaseException extends RuntimeException {
   BaseException(ResultCodeEnum code, Exception e) {
     super(e);
     this.code = code.value();
-    this.message = code.getReasonPhrase();
+    this.message = code.reasonPhrase();
   }
 }

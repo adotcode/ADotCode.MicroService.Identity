@@ -1,10 +1,14 @@
 package com.adotcode.oauth2server.controller.application;
 
+import com.adotcode.oauth2server.domain.dto.response.application.LanguageMessageSourceResponse;
 import com.adotcode.oauth2server.domain.dto.response.application.LanguageResponse;
 import com.adotcode.oauth2server.domain.wrapper.ListResultWrapper;
 import com.adotcode.oauth2server.domain.wrapper.ResultWrapper;
+import com.adotcode.oauth2server.domain.wrapper.ResultWrapper.ErrorWrapper;
 import com.adotcode.oauth2server.service.application.I18nService;
+import com.adotcode.oauth2server.util.i18n.I18nMessageUtils;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,8 +49,25 @@ public class ApplicationController {
    *
    * @param l locale code 不存在则设置为默认
    */
-  @GetMapping("i18n/languages/switch")
-  public ResultWrapper switchLanguage(@RequestParam String l) {
-    return ListResultWrapper.ok();
+  @GetMapping("i18n/languages/change")
+  public ResultWrapper changeLanguage(@RequestParam String l) {
+    List<String> applicationLanguages = i18nService.getLanguages()
+        .stream()
+        .map(LanguageResponse::getLocale)
+        .collect(Collectors.toList());
+    if (!applicationLanguages.contains(l)) {
+      return ResultWrapper.error(ErrorWrapper
+          .newInstance(I18nMessageUtils.translate("application.i18n.language.not.present", l)));
+    }
+    return ResultWrapper.ok();
+  }
+
+  /**
+   * 获取语言资源列表
+   */
+  @GetMapping("i18n/languages/message-resources")
+  public ResultWrapper<LanguageMessageSourceResponse> getMessageResources() {
+    LanguageMessageSourceResponse result = i18nService.getLocaleMessageResources();
+    return ResultWrapper.ok(result);
   }
 }

@@ -23,24 +23,24 @@ public class I18nMessageUtils {
   }
 
   /**
-   * 本地化
+   * 翻译
    *
    * @param msgCode locale key
    * @return locale message
    */
-  public static String locale(String msgCode) {
+  public static String translate(String msgCode) {
     Locale locale = LocaleContextHolder.getLocale();
     return messageSource.getMessage(msgCode, null, locale);
   }
 
   /**
-   * 本地化
+   * 翻译
    *
    * @param msgCode locale key eg:good.morning.name={0} Good morning {1}
    * @param args string format 参数 eg:String[] params= new String[]{“tom”, “today”}
    * @return locale message eg:tom Good morning today
    */
-  public static String locale(String msgCode, Object... args) {
+  public static String translate(String msgCode, Object... args) {
     Locale locale = LocaleContextHolder.getLocale();
     return messageSource.getMessage(msgCode, args, locale);
   }

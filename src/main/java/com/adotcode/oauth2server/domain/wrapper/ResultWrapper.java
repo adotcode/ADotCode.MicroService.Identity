@@ -1,7 +1,7 @@
 package com.adotcode.oauth2server.domain.wrapper;
 
 import com.adotcode.oauth2server.domain.enums.result.ResultCodeEnum;
-import com.adotcode.oauth2server.domain.exception.application.BaseException;
+import com.adotcode.oauth2server.util.http.RequestUtils;
 import com.adotcode.oauth2server.util.i18n.I18nMessageUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,25 +17,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class ResultWrapper<T> {
-
-  /**
-   * 错误信息
-   */
-  @Data
-  @NoArgsConstructor
-  @AllArgsConstructor
-  public static class Error {
-
-    /**
-     * 资源标识
-     */
-    private String uri;
-
-    /**
-     * 错误详情
-     */
-    private Object message;
-  }
 
   /**
    * result code
@@ -58,65 +39,19 @@ public class ResultWrapper<T> {
   private T data;
 
   /**
-   * error details
+   * error  details
    */
-  private Error error;
+  private ErrorWrapper error;
 
   /**
-   * data construction
+   * data result
    *
    * @param data data
    */
   ResultWrapper(T data) {
     this.code = ResultCodeEnum.SUCCESS.value();
-    this.message = I18nMessageUtils.locale(ResultCodeEnum.SUCCESS.getReasonPhrase());
+    this.message = I18nMessageUtils.translate(ResultCodeEnum.SUCCESS.reasonPhrase());
     this.data = data;
-  }
-
-  /**
-   * no data result
-   *
-   * @param code code
-   */
-  private ResultWrapper(ResultCodeEnum code) {
-    this.code = code.value();
-    this.message = I18nMessageUtils.locale(code.getReasonPhrase());
-  }
-
-  /**
-   * no data result
-   *
-   * @param code code
-   * @param message message
-   */
-  private ResultWrapper(String code, String message, Error error) {
-    this.code = code;
-    this.message = I18nMessageUtils.locale(message);
-    this.error = error;
-  }
-
-  /**
-   * no data result
-   *
-   * @param code code
-   * @param message custom message
-   */
-  private ResultWrapper(ResultCodeEnum code, String message) {
-    this.code = code.value();
-    this.message = I18nMessageUtils.locale(message);
-  }
-
-
-  /**
-   * error result
-   *
-   * @param code ResultCodeEnum
-   * @param error error
-   */
-  private ResultWrapper(ResultCodeEnum code, Error error) {
-    this.code = code.value();
-    this.message = I18nMessageUtils.locale(code.getReasonPhrase());
-    this.error = error;
   }
 
   /**
@@ -125,12 +60,36 @@ public class ResultWrapper<T> {
    * @param code code
    * @param message message
    * @param data data
-   * @param error error
+   * @param error errorWrapper
    */
-  private ResultWrapper(String code, String message, T data, Error error) {
+  private ResultWrapper(String code, String message, T data, ErrorWrapper error) {
     this.code = code;
-    this.message = I18nMessageUtils.locale(message);
+    this.message = message;
     this.data = data;
+    this.error = error;
+  }
+
+  /**
+   * data result
+   *
+   * @param code code
+   * @param message message
+   */
+  private ResultWrapper(String code, String message) {
+    this.code = code;
+    this.message = message;
+  }
+
+  /**
+   * no data result
+   *
+   * @param code code
+   * @param message message
+   * @param error errorWrapper
+   */
+  private ResultWrapper(String code, String message, ErrorWrapper error) {
+    this.code = code;
+    this.message = message;
     this.error = error;
   }
 
@@ -140,7 +99,9 @@ public class ResultWrapper<T> {
    * @return ResultWrapper
    */
   public static ResultWrapper ok() {
-    return new ResultWrapper(ResultCodeEnum.SUCCESS);
+    return new ResultWrapper(
+        ResultCodeEnum.SUCCESS.value(),
+        I18nMessageUtils.translate(ResultCodeEnum.SUCCESS.reasonPhrase()));
   }
 
   /**
@@ -151,8 +112,11 @@ public class ResultWrapper<T> {
    * @return ResultWrapper<T>
    */
   public static <T> ResultWrapper<T> ok(T data) {
-    return new ResultWrapper<>(ResultCodeEnum.SUCCESS.value(),
-        ResultCodeEnum.SUCCESS.getReasonPhrase(), data, null);
+    return new ResultWrapper<>(
+        ResultCodeEnum.SUCCESS.value(),
+        I18nMessageUtils.translate(ResultCodeEnum.SUCCESS.reasonPhrase()),
+        data,
+        null);
   }
 
   /**
@@ -161,7 +125,12 @@ public class ResultWrapper<T> {
    * @return ResultWrapper
    */
   public static ResultWrapper error() {
-    return new ResultWrapper(ResultCodeEnum.ERROR, ResultCodeEnum.ERROR.getReasonPhrase());
+    String message = I18nMessageUtils.translate(ResultCodeEnum.ERROR.reasonPhrase());
+    ErrorWrapper errorWrapper = new ErrorWrapper(message);
+    return new ResultWrapper(
+        ResultCodeEnum.ERROR.value(),
+        message,
+        errorWrapper);
   }
 
   /**
@@ -169,8 +138,11 @@ public class ResultWrapper<T> {
    *
    * @return ResultWrapper
    */
-  public static ResultWrapper error(Error error) {
-    return new ResultWrapper(ResultCodeEnum.ERROR, error);
+  public static ResultWrapper error(ErrorWrapper errorWrapper) {
+    return new ResultWrapper(
+        ResultCodeEnum.ERROR.value(),
+        I18nMessageUtils.translate(ResultCodeEnum.ERROR.reasonPhrase()),
+        errorWrapper);
   }
 
   /**
@@ -178,19 +150,40 @@ public class ResultWrapper<T> {
    *
    * @return ResultWrapper
    */
-  public static ResultWrapper error(ResultCodeEnum code, Error error) {
-    return new ResultWrapper(code, error);
+  public static ResultWrapper error(String code, String message, ErrorWrapper errorWrapper) {
+    return new ResultWrapper(code, message, errorWrapper);
   }
-
 
   /**
-   * 错误结果返回
-   *
-   * @param e BaseException
-   * @return ResultWrapper
+   * 错误信息
    */
-  public static ResultWrapper error(BaseException e, Error error) {
-    return new ResultWrapper(e.getCode(), e.getMessage(), error);
-  }
+  @Data
+  @NoArgsConstructor
+  @AllArgsConstructor
+  public static class ErrorWrapper {
 
+    /**
+     * 资源标识
+     */
+    private String uri = RequestUtils.getRequestAllUrl();
+
+    /**
+     * 错误详情
+     */
+    private Object message;
+
+    private ErrorWrapper(Object message) {
+      this.message = message;
+    }
+
+    /**
+     * 获取一个实例
+     *
+     * @param message 错误信息
+     * @return ErrorWrapper
+     */
+    public static ErrorWrapper newInstance(Object message) {
+      return new ErrorWrapper(message);
+    }
+  }
 }

@@ -9,12 +9,11 @@ import com.adotcode.oauth2server.domain.exception.application.IllegalPropertiesE
 import com.adotcode.oauth2server.domain.exception.application.NullOrEmptyException;
 import com.adotcode.oauth2server.domain.exception.application.UnAuthorizedException;
 import com.adotcode.oauth2server.domain.wrapper.ResultWrapper;
-import com.adotcode.oauth2server.domain.wrapper.ResultWrapper.Error;
+import com.adotcode.oauth2server.domain.wrapper.ResultWrapper.ErrorWrapper;
 import com.adotcode.oauth2server.util.i18n.I18nMessageUtils;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -42,126 +41,113 @@ public class GlobalExceptionHandler {
   /**
    * 默认异常处理(未匹配到任何预知异常，服务器内部错误)
    *
-   * @param request 请求体
    * @param e 异常
    * @return 返回结果
    */
   @ExceptionHandler(Exception.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   @ResponseBody
-  public ResultWrapper onException(HttpServletRequest request, Exception e) {
+  public ResultWrapper onException(Exception e) {
     log.error("服务器内部错误.", e);
-    return wrapperErrorResult(request, e);
+    return wrapperErrorResult(e);
   }
 
   /**
    * 用户未授权异常处理
    *
-   * @param request 请求体
    * @param e 异常
    * @return 返回结果
    */
   @ExceptionHandler(UnAuthorizedException.class)
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
   @ResponseBody
-  public ResultWrapper onUnauthorizedException(HttpServletRequest request,
-      UnAuthorizedException e) {
-    return wrapperErrorResult(request, e);
+  public ResultWrapper onUnauthorizedException(UnAuthorizedException e) {
+    return wrapperErrorResult(e);
   }
 
   /**
    * 无权访问异常处理
    *
-   * @param request 请求体
    * @param e 异常
    * @return 返回结果
    */
   @ExceptionHandler(ForbiddenException.class)
   @ResponseStatus(HttpStatus.FORBIDDEN)
   @ResponseBody
-  public ResultWrapper onForbiddenException(HttpServletRequest request, ForbiddenException e) {
-    return wrapperErrorResult(request, e);
+  public ResultWrapper onForbiddenException(ForbiddenException e) {
+    return wrapperErrorResult(e);
   }
 
   /**
    * null或空异常处理
    *
-   * @param request 请求体
    * @param e 异常
    * @return 返回结果
    */
   @ExceptionHandler(NullOrEmptyException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ResponseBody
-  public ResultWrapper onNullOrEmptyException(HttpServletRequest request, NullOrEmptyException e) {
-    return wrapperErrorResult(request, e);
+  public ResultWrapper onNullOrEmptyException(NullOrEmptyException e) {
+    return wrapperErrorResult(e);
   }
 
   /**
    * 非法属性异常
    *
-   * @param request 请求体
    * @param e 异常
    * @return 返回结果
    */
   @ExceptionHandler(IllegalPropertiesException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ResponseBody
-  public ResultWrapper onIllegalPropertiesException(HttpServletRequest request,
-      IllegalPropertiesException e) {
-    return wrapperErrorResult(request, e);
+  public ResultWrapper onIllegalPropertiesException(IllegalPropertiesException e) {
+    return wrapperErrorResult(e);
   }
 
   /**
    * 非法参数异常
    *
-   * @param request 请求体
    * @param e 异常
    * @return 返回结果
    */
   @ExceptionHandler(IllegalParameterException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ResponseBody
-  public ResultWrapper onIllegalParameterException(HttpServletRequest request,
-      IllegalParameterException e) {
-    return wrapperErrorResult(request, e);
+  public ResultWrapper onIllegalParameterException(IllegalParameterException e) {
+    return wrapperErrorResult(e);
   }
 
   /**
    * validation 异常处理
    *
-   * @param request 请求体
    * @param e 异常
    * @return 返回结果
    */
   @ExceptionHandler(ConstraintViolationException.class)
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   @ResponseBody
-  public ResultWrapper onConstraintViolationException(HttpServletRequest request,
-      ConstraintViolationException e) {
+  public ResultWrapper onConstraintViolationException(ConstraintViolationException e) {
     Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
     if (!CollectionUtils.isEmpty(constraintViolations)) {
       List<String> errorMessage = constraintViolations
           .stream()
-          .map(error -> I18nMessageUtils.locale(error.getMessage()))
+          .map(error -> I18nMessageUtils.translate(error.getMessage()))
           .collect(Collectors.toList());
-      return wrapperErrorResult(request, ResultCodeEnum.CONSTRAINT_VIOLATION, errorMessage);
+      return wrapperErrorResult(ResultCodeEnum.CONSTRAINT_VIOLATION, errorMessage);
     }
-    return wrapperErrorResult(request, e);
+    return wrapperErrorResult(e);
   }
 
   /**
    * validation 异常处理
    *
-   * @param request 请求体
    * @param e 异常
    * @return 返回结果
    */
   @ExceptionHandler(MethodArgumentNotValidException.class)
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   @ResponseBody
-  public ResultWrapper onMethodArgumentNotValidException(HttpServletRequest request,
-      MethodArgumentNotValidException e) {
+  public ResultWrapper onMethodArgumentNotValidException(MethodArgumentNotValidException e) {
     List<FieldError> objectErrors = e.getBindingResult().getFieldErrors();
     if (!CollectionUtils.isEmpty(objectErrors)) {
       List<String> errorMessage = objectErrors
@@ -169,83 +155,80 @@ public class GlobalExceptionHandler {
           .map(error ->
               String.format("[%s]%s",
                   error.getField(),
-                  I18nMessageUtils.locale(error.getDefaultMessage(), error.getArguments())))
+                  I18nMessageUtils.translate(error.getDefaultMessage(), error.getArguments())))
           .collect(Collectors.toList());
-      return wrapperErrorResult(request, ResultCodeEnum.METHOD_ARGUMENT_NOT_VALID, errorMessage);
+      return wrapperErrorResult(ResultCodeEnum.METHOD_ARGUMENT_NOT_VALID, errorMessage);
     }
-    return wrapperErrorResult(request, e);
+    return wrapperErrorResult(e);
   }
 
 
   /**
    * Request Parameter 异常处理
    *
-   * @param request 请求体
    * @param e 异常
    * @return 返回结果
    */
   @ExceptionHandler(MissingServletRequestParameterException.class)
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   @ResponseBody
-  public ResultWrapper onMissingServletRequestParameterException(HttpServletRequest request,
+  public ResultWrapper onMissingServletRequestParameterException(
       MissingServletRequestParameterException e) {
-    GenericException genericException = new GenericException(
-        I18nMessageUtils.locale("exception.parameter.required.not.present", e.getParameterName()));
-    return wrapperErrorResult(request, genericException);
+    return wrapperErrorResult(e);
   }
 
   /**
    * 通用异常
    *
-   * @param request 请求体
    * @param e 异常
    * @return 返回结果
    */
   @ExceptionHandler(GenericException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ResponseBody
-  public ResultWrapper onGenericException(HttpServletRequest request, GenericException e) {
-    return wrapperErrorResult(request, e);
+  public ResultWrapper onGenericException(GenericException e) {
+    return wrapperErrorResult(e);
   }
 
   /**
    * 错误信息返回辅助
    *
-   * @param request 请求体
    * @param e Exception
    * @return ResultWrapper
    */
-  private ResultWrapper wrapperErrorResult(HttpServletRequest request, Exception e) {
-    Error error = new ResultWrapper.Error(request.getRequestURI(),
-        I18nMessageUtils.locale(e.getMessage()));
-    return ResultWrapper.error(error);
+  private ResultWrapper wrapperErrorResult(Exception e) {
+    if (e instanceof MissingServletRequestParameterException) {
+      MissingServletRequestParameterException missingServletRequestParameterException =
+          (MissingServletRequestParameterException) e;
+      String message = I18nMessageUtils
+          .translate("exception.parameter.required.not.present",
+              missingServletRequestParameterException.getParameterName());
+      return ResultWrapper.error(ErrorWrapper.newInstance(message));
+    }
+    return ResultWrapper
+        .error(ErrorWrapper.newInstance(I18nMessageUtils.translate(e.getMessage())));
   }
 
   /**
    * 错误信息返回辅助
    *
-   * @param request 请求体
    * @param code 错误代码
    * @param errorObj 错误消息描述
    * @return ResultWrapper
    */
-  private ResultWrapper wrapperErrorResult(HttpServletRequest request, ResultCodeEnum code,
-      Object errorObj) {
-    Error error = new ResultWrapper.Error(request.getRequestURI(), errorObj);
-    return ResultWrapper.error(code, error);
+  private ResultWrapper wrapperErrorResult(ResultCodeEnum code, Object errorObj) {
+    return ResultWrapper.error(code.value(), I18nMessageUtils.translate(code.reasonPhrase()),
+        ErrorWrapper.newInstance(errorObj));
   }
 
   /**
    * 错误信息返回辅助
    *
-   * @param request 请求体
    * @param e BaseException
    * @return ResultWrapper
    */
-  private ResultWrapper wrapperErrorResult(HttpServletRequest request, BaseException e) {
-    Error error = new ResultWrapper.Error(request.getRequestURI(),
-        I18nMessageUtils.locale(e.getMessage()));
-    return ResultWrapper.error(e, error);
+  private ResultWrapper wrapperErrorResult(BaseException e) {
+    return ResultWrapper.error(e.getCode(), I18nMessageUtils.translate(e.getMessage()),
+        ErrorWrapper.newInstance(I18nMessageUtils.translate(e.getMessage())));
   }
-
 }

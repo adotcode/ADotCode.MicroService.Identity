@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
  * @date 2019/08/04
  */
 @Configuration
+@Slf4j
 public class I18nConfig implements WebMvcConfigurer {
 
   /**
@@ -71,7 +73,7 @@ public class I18nConfig implements WebMvcConfigurer {
         //使用消息key作为默认值
         messageSource.setUseCodeAsDefaultMessage(true);
       } catch (IOException e) {
-        e.printStackTrace();
+        log.error("注入i18n资源文件异常.", e);
       }
     }
     return messageSource;
@@ -89,7 +91,7 @@ public class I18nConfig implements WebMvcConfigurer {
     if (file.exists() && file.isDirectory()) {
       this.getAllFile(baseNames, file, "");
     } else {
-      System.out.println("指定的baseFile不存在或者不是文件夹");
+      log.error("指定的baseFile不存在或者不是文件夹");
     }
     return baseNames.toArray(new String[0]);
   }
@@ -98,7 +100,6 @@ public class I18nConfig implements WebMvcConfigurer {
    * 遍历所有文件
    */
   private void getAllFile(List<String> baseNames, File folder, String path) {
-
     if (folder.isDirectory()) {
       File[] files = folder.listFiles();
       if (files == null) {

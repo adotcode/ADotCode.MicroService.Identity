@@ -16,7 +16,7 @@ public enum ResultCodeEnum {
   SUCCESS("OK", "result.code.ok"),
 
   /**
-   * error
+   * errorWrapper
    */
   ERROR("ERROR", "result.code.error"),
 
@@ -87,7 +87,7 @@ public enum ResultCodeEnum {
   /**
    * Return the reason phrase of this status code.
    */
-  public String getReasonPhrase() {
+  public String reasonPhrase() {
     return this.reasonPhrase;
   }
 
