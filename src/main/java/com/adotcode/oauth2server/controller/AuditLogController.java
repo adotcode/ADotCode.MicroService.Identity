@@ -5,8 +5,7 @@ import com.adotcode.oauth2server.domain.exception.application.IllegalParameterEx
 import com.adotcode.oauth2server.domain.exception.application.NullOrEmptyException;
 import com.adotcode.oauth2server.domain.exception.application.UnAuthorizedException;
 import com.adotcode.oauth2server.domain.wrapper.ResultWrapper;
-import com.adotcode.oauth2server.mapper.log.AuditLogMapper;
-import java.util.Date;
+import com.adotcode.oauth2server.service.auditlog.AuditLogService;
 import javax.validation.constraints.Min;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -28,11 +27,14 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class AuditLogController {
 
-  private final AuditLogMapper auditLogMapper;
 
-  public AuditLogController(AuditLogMapper auditLogMapper) {
-    this.auditLogMapper = auditLogMapper;
+  private final AuditLogService auditLogService;
+
+  public AuditLogController(
+      AuditLogService auditLogService) {
+    this.auditLogService = auditLogService;
   }
+
 
   /**
    * 通过Id查找浏览器信息
@@ -55,8 +57,14 @@ public class AuditLogController {
     if (id == 2) {
       throw new GenericException("通用异常");
     }
-    String result = auditLogMapper.findBrowserInfoById(id);
-    log.error("This is an errorWrapper message.[{}]", new Date());
+    String result = auditLogService.findBrowserInfoById(id);
+    return ResultWrapper.ok(result);
+  }
+
+  @GetMapping("{id}/user-info")
+  public ResultWrapper<String> findUserInfoById(
+      @Min(value = 1, message = "id最小值为1。") @PathVariable("id") long id) {
+    String result = auditLogService.findUserEmailById(id);
     return ResultWrapper.ok(result);
   }
 }

@@ -1,5 +1,6 @@
 package com.adotcode.oauth2server.domain.exception;
 
+import com.adotcode.oauth2server.common.util.i18n.I18nMessageUtils;
 import com.adotcode.oauth2server.domain.enums.result.ResultCodeEnum;
 import com.adotcode.oauth2server.domain.exception.application.BaseException;
 import com.adotcode.oauth2server.domain.exception.application.ForbiddenException;
@@ -10,7 +11,6 @@ import com.adotcode.oauth2server.domain.exception.application.NullOrEmptyExcepti
 import com.adotcode.oauth2server.domain.exception.application.UnAuthorizedException;
 import com.adotcode.oauth2server.domain.wrapper.ResultWrapper;
 import com.adotcode.oauth2server.domain.wrapper.ResultWrapper.ErrorWrapper;
-import com.adotcode.oauth2server.util.i18n.I18nMessageUtils;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -152,10 +152,8 @@ public class GlobalExceptionHandler {
     if (!CollectionUtils.isEmpty(objectErrors)) {
       List<String> errorMessage = objectErrors
           .stream()
-          .map(error ->
-              String.format("[%s]%s",
-                  error.getField(),
-                  I18nMessageUtils.translate(error.getDefaultMessage(), error.getArguments())))
+          .map(error -> String.format("[%s]%s", error.getField(),
+              I18nMessageUtils.translate(error.getDefaultMessage(), error.getArguments())))
           .collect(Collectors.toList());
       return wrapperErrorResult(ResultCodeEnum.METHOD_ARGUMENT_NOT_VALID, errorMessage);
     }
@@ -200,9 +198,8 @@ public class GlobalExceptionHandler {
     if (e instanceof MissingServletRequestParameterException) {
       MissingServletRequestParameterException missingServletRequestParameterException =
           (MissingServletRequestParameterException) e;
-      String message = I18nMessageUtils
-          .translate("exception.parameter.required.not.present",
-              missingServletRequestParameterException.getParameterName());
+      String message = I18nMessageUtils.translate("exception.parameter.required.not.present",
+          missingServletRequestParameterException.getParameterName());
       return ResultWrapper.error(ErrorWrapper.newInstance(message));
     }
     return ResultWrapper

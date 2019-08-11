@@ -1,4 +1,4 @@
-package com.adotcode.oauth2server.util.i18n;
+package com.adotcode.oauth2server.common.util.i18n;
 
 import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.adotcode.oauth2server.util.http;
+package com.adotcode.oauth2server.common.util.http;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

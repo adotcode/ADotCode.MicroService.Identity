@@ -1,8 +1,8 @@
 package com.adotcode.oauth2server.domain.wrapper;
 
+import com.adotcode.oauth2server.common.util.http.RequestUtils;
+import com.adotcode.oauth2server.common.util.i18n.I18nMessageUtils;
 import com.adotcode.oauth2server.domain.enums.result.ResultCodeEnum;
-import com.adotcode.oauth2server.util.http.RequestUtils;
-import com.adotcode.oauth2server.util.i18n.I18nMessageUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
