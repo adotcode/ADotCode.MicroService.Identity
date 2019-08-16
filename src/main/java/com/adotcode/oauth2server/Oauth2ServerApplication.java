@@ -17,7 +17,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  * @date 2019-07-13
  */
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-@MapperScan("com.adotcode.oauth2server.mapper")
+@MapperScan({"com.adotcode.oauth2server.mapper"})
 public class Oauth2ServerApplication {
 
   public static void main(String[] args) {

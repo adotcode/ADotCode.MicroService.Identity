@@ -1,6 +1,8 @@
 server:
   port: 8080
 spring:
+  profiles:
+    active: dev
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     master:
@@ -13,8 +15,6 @@ spring:
       username: root
       password: risfeng@123!
       driver-class-name: com.mysql.cj.jdbc.Driver
-  profiles:
-    active: dev
   messages:
     encoding: utf-8
     base-folder: i18n

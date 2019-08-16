@@ -1,0 +1,40 @@
+package com.adotcode.oauth2server.domain.auditing;
+
+import java.util.Date;
+import lombok.Data;
+
+/**
+ * 添加删除相关[Deleted Object]属性的标准抽象类。
+ *
+ * @author risfeng
+ * @date 2019/08/15
+ */
+@Data
+public abstract class AbstractHasGenericDeletedObject<T> {
+
+  /**
+   * 是否删除
+   */
+  private boolean deleted = false;
+
+  /**
+   * 删除人
+   */
+  private T deletedBy;
+
+  /**
+   * 删除时间
+   */
+  private Date deletedAt;
+
+  /**
+   * 设置删除状态信息
+   *
+   * @param deletedBy 删除人
+   */
+  public void setDeleted(T deletedBy) {
+    this.deleted = true;
+    this.deletedAt = new Date();
+    this.deletedBy = deletedBy;
+  }
+}
