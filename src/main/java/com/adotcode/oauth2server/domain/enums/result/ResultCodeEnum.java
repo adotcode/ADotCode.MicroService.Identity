@@ -53,7 +53,12 @@ public enum ResultCodeEnum {
   /**
    * 参数验证不通过（@Valid）
    */
-  METHOD_ARGUMENT_NOT_VALID("METHOD_ARGUMENT_NOT_VALID", "result.code.methodArgumentNotValid");
+  METHOD_ARGUMENT_NOT_VALID("METHOD_ARGUMENT_NOT_VALID", "result.code.methodArgumentNotValid"),
+
+  /**
+   * XX转换失败
+   */
+  PARSE_FAILED("PARSE_FAILED", "result.code.parseFailed");
 
 
   /**

@@ -2,6 +2,7 @@ package com.adotcode.oauth2server.config;
 
 import com.alibaba.fastjson.PropertyNamingStrategy;
 import com.alibaba.fastjson.parser.Feature;
+import com.alibaba.fastjson.parser.ParserConfig;
 import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
@@ -55,6 +56,12 @@ public class JsonConfig {
     SerializeConfig serializeConfig = SerializeConfig.globalInstance;
     serializeConfig.propertyNamingStrategy = PropertyNamingStrategy.SnakeCase;
     fastJsonConfig.setSerializeConfig(serializeConfig);
+
+    //反序列化设置
+    ParserConfig parserConfig = ParserConfig.getGlobalInstance();
+    parserConfig.propertyNamingStrategy = PropertyNamingStrategy.SnakeCase;
+    fastJsonConfig.setParserConfig(parserConfig);
+
     //中文乱码处理
     ArrayList<MediaType> fastMediaTypes = new ArrayList<>();
     fastMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);

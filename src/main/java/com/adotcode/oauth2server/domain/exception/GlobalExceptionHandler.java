@@ -8,6 +8,7 @@ import com.adotcode.oauth2server.domain.exception.application.GenericException;
 import com.adotcode.oauth2server.domain.exception.application.IllegalParameterException;
 import com.adotcode.oauth2server.domain.exception.application.IllegalPropertiesException;
 import com.adotcode.oauth2server.domain.exception.application.NullOrEmptyException;
+import com.adotcode.oauth2server.domain.exception.application.ParseFailedException;
 import com.adotcode.oauth2server.domain.exception.application.UnAuthorizedException;
 import com.adotcode.oauth2server.domain.wrapper.ResultWrapper;
 import com.adotcode.oauth2server.domain.wrapper.ResultWrapper.ErrorWrapper;
@@ -185,6 +186,19 @@ public class GlobalExceptionHandler {
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ResponseBody
   public ResultWrapper onGenericException(GenericException e) {
+    return wrapperErrorResult(e);
+  }
+
+  /**
+   * 转失败异常
+   *
+   * @param e 异常
+   * @return 返回结果
+   */
+  @ExceptionHandler(ParseFailedException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ResponseBody
+  public ResultWrapper onParseFailedException(ParseFailedException e) {
     return wrapperErrorResult(e);
   }
 

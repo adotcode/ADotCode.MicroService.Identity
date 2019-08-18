@@ -22,7 +22,6 @@ public class Organization extends AbstractHasFullAuditedObject implements Serial
    * 主键Id
    */
   private UUID id = UUID.randomUUID();
-
   /**
    * 路径编码：00001.00001
    */
@@ -34,7 +33,7 @@ public class Organization extends AbstractHasFullAuditedObject implements Serial
   private String name;
 
   /**
-   * 父组织结构Id
+   * 父组织机构Id
    */
   private UUID parentId;
 
