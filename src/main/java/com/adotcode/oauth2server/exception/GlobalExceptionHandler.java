@@ -49,8 +49,10 @@ public class GlobalExceptionHandler {
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   @ResponseBody
   public ResultWrapper onException(Exception e) {
-    log.error("Internal Server Error.", e);
-    return wrapperErrorResult(e);
+    String message = I18nMessageUtils
+        .translate(ResultCodeEnum.INTERNAL_SERVER_ERROR.reasonPhrase());
+    log.error(message, e);
+    return wrapperErrorResult(ResultCodeEnum.INTERNAL_SERVER_ERROR, e.getMessage());
   }
 
   /**

@@ -16,9 +16,14 @@ public enum ResultCodeEnum {
   SUCCESS("OK", "result.code.ok"),
 
   /**
-   * errorWrapper
+   * error
    */
   ERROR("ERROR", "result.code.error"),
+
+  /**
+   * 内部服务错误
+   */
+  INTERNAL_SERVER_ERROR("INTERNAL_SERVER_ERROR", "result.code.internal.server.error"),
 
   /**
    * 无权访问.
