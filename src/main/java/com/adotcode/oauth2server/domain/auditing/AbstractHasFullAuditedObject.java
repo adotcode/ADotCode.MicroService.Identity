@@ -15,10 +15,11 @@ import lombok.Data;
 public abstract class AbstractHasFullAuditedObject implements Serializable, Cloneable {
 
   private static final long serialVersionUID = 275824822145841662L;
+
   /**
-   * 当前时间
+   * 乐观锁版本号
    */
-  private final Date now = new Date();
+  private Long version = 1L;
 
   /**
    * 创建人
@@ -62,7 +63,7 @@ public abstract class AbstractHasFullAuditedObject implements Serializable, Clon
    */
   public void setCreated(UUID createdBy) {
     this.createdBy = createdBy;
-    this.createdAt = now;
+    this.createdAt = new Date();
   }
 
   /**
@@ -72,7 +73,7 @@ public abstract class AbstractHasFullAuditedObject implements Serializable, Clon
    */
   public void setUpdated(UUID updatedBy) {
     this.updatedBy = updatedBy;
-    this.updatedAt = now;
+    this.updatedAt = new Date();
   }
 
   /**
@@ -82,7 +83,7 @@ public abstract class AbstractHasFullAuditedObject implements Serializable, Clon
    */
   public void setDeleted(UUID deletedBy) {
     this.deleted = true;
-    this.deletedAt = now;
+    this.deletedAt = new Date();
     this.deletedBy = deletedBy;
   }
 }

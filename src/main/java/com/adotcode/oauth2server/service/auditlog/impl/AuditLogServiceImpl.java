@@ -1,6 +1,6 @@
 package com.adotcode.oauth2server.service.auditlog.impl;
 
-import com.adotcode.oauth2server.common.annotation.DataSource;
+import com.adotcode.oauth2server.common.annotation.SwitchDataSource;
 import com.adotcode.oauth2server.common.database.datasource.DataSourceTypeEnum;
 import com.adotcode.oauth2server.mapper.log.AuditLogMapper;
 import com.adotcode.oauth2server.mapper.user.UserMapper;
@@ -43,7 +43,7 @@ public class AuditLogServiceImpl implements AuditLogService {
    * @param id 用户Id
    * @return 邮箱信息
    */
-  @DataSource(value = DataSourceTypeEnum.SLAVE)
+  @SwitchDataSource(value = DataSourceTypeEnum.SLAVE)
   @Override
   public String findUserEmailById(long id) {
     return userMapper.findUserEmailById(id);

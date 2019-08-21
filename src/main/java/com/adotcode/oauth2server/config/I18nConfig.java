@@ -73,7 +73,7 @@ public class I18nConfig implements WebMvcConfigurer {
         //使用消息key作为默认值
         messageSource.setUseCodeAsDefaultMessage(true);
       } catch (IOException e) {
-        log.error("注入i18n资源文件异常.", e);
+        log.error("i18n set base names error.", e);
       }
     }
     return messageSource;
@@ -91,7 +91,7 @@ public class I18nConfig implements WebMvcConfigurer {
     if (file.exists() && file.isDirectory()) {
       this.getAllFile(baseNames, file, "");
     } else {
-      log.error("指定的baseFile不存在或者不是文件夹");
+      log.error("i18n base file path not exist or not directory.");
     }
     return baseNames.toArray(new String[0]);
   }

@@ -1,7 +1,7 @@
 package com.adotcode.oauth2server.service.application;
 
-import com.adotcode.oauth2server.domain.dto.response.application.LanguageMessageSourceResponse;
-import com.adotcode.oauth2server.domain.dto.response.application.LanguageResponse;
+import com.adotcode.oauth2server.model.response.application.LanguageMessageSourceResponse;
+import com.adotcode.oauth2server.model.response.application.LanguageResponse;
 import java.util.List;
 
 /**

@@ -1,7 +1,7 @@
 package com.adotcode.oauth2server.common.util.time;
 
 import com.adotcode.oauth2server.common.util.i18n.I18nMessageUtils;
-import com.adotcode.oauth2server.domain.exception.application.ParseFailedException;
+import com.adotcode.oauth2server.exception.application.ParseFailedException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

@@ -1,6 +1,6 @@
 package com.adotcode.oauth2server.common.advice;
 
-import com.adotcode.oauth2server.common.annotation.DataSource;
+import com.adotcode.oauth2server.common.annotation.SwitchDataSource;
 import com.adotcode.oauth2server.common.database.datasource.DataSourceContextHolder;
 import com.adotcode.oauth2server.common.util.i18n.I18nMessageUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -27,17 +27,17 @@ public class DynamicDataSourceAdvice implements Ordered {
    * 切换数据源注解实现
    *
    * @param proceedingJoinPoint 切入点
-   * @param dataSource 注解
+   * @param switchDataSource 注解
    * @return Object 处理结果
    * @throws Throwable 异常
    */
-  @Around("@annotation(dataSource)")
-  public Object proceed(ProceedingJoinPoint proceedingJoinPoint, DataSource dataSource)
+  @Around("@annotation(switchDataSource)")
+  public Object proceed(ProceedingJoinPoint proceedingJoinPoint, SwitchDataSource switchDataSource)
       throws Throwable {
     try {
       log.info(I18nMessageUtils
-          .translate("application.database.datasource.switch.success", dataSource.value()));
-      DataSourceContextHolder.setDataSource(dataSource.value());
+          .translate("application.database.datasource.switch.success", switchDataSource.value()));
+      DataSourceContextHolder.setDataSource(switchDataSource.value());
       // 让这个方法执行完
       return proceedingJoinPoint.proceed();
     } catch (Exception e) {
@@ -46,7 +46,7 @@ public class DynamicDataSourceAdvice implements Ordered {
     } finally {
       DataSourceContextHolder.clear();
       log.info(I18nMessageUtils
-          .translate("application.database.datasource.clear.success", dataSource.value()));
+          .translate("application.database.datasource.clear.success", switchDataSource.value()));
     }
   }
 

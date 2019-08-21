@@ -54,12 +54,12 @@ public class JsonConfig {
     );
     //序列化设置
     SerializeConfig serializeConfig = SerializeConfig.globalInstance;
-    serializeConfig.propertyNamingStrategy = PropertyNamingStrategy.SnakeCase;
+    serializeConfig.propertyNamingStrategy = PropertyNamingStrategy.CamelCase;
     fastJsonConfig.setSerializeConfig(serializeConfig);
 
     //反序列化设置
     ParserConfig parserConfig = ParserConfig.getGlobalInstance();
-    parserConfig.propertyNamingStrategy = PropertyNamingStrategy.SnakeCase;
+    parserConfig.propertyNamingStrategy = PropertyNamingStrategy.CamelCase;
     fastJsonConfig.setParserConfig(parserConfig);
 
     //中文乱码处理

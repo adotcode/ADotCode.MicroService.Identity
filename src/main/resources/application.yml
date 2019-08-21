@@ -28,12 +28,10 @@ pagehelper:
 json:
   date-format: yyyy-MM-dd HH:mm:ss
 
-
-#mybatis sql语句控制台输出
-#mybatis:
-#  configuration:
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
+#mybatis config
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #sql语句控制台输出
 # 日志配置
 
 

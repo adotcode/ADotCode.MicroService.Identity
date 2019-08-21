@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.sql.DataSource;
 import lombok.extern.slf4j.Slf4j;
+import lombok.var;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,6 +16,7 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 /**
@@ -37,7 +39,7 @@ public class DataSourceConfig {
   /**
    * 主库数据源
    *
-   * @return DataSource
+   * @return SwitchDataSource
    */
   @Bean(name = "masterDataSource")
   @ConfigurationProperties(prefix = "spring.datasource.master")
@@ -51,7 +53,7 @@ public class DataSourceConfig {
   /**
    * 从库数据源
    *
-   * @return DataSource
+   * @return SwitchDataSource
    */
   @Bean(name = "slaveDataSource")
   @ConfigurationProperties(prefix = "spring.datasource.slave")
@@ -79,6 +81,7 @@ public class DataSourceConfig {
     dataSource.setTargetDataSources(targetDataSources);
     //默认数据源设置为masterDataSource
     dataSource.setDefaultTargetDataSource(masterDataSource);
+
     return dataSource;
   }
 
@@ -90,6 +93,13 @@ public class DataSourceConfig {
     SqlSessionFactoryBean fb = new SqlSessionFactoryBean();
     // 指定数据源（否则报错）
     fb.setDataSource(ds);
+    fb.setMapperLocations(new PathMatchingResourcePatternResolver()
+        .getResources("classpath:mapper/**/**.xml"));
+    // mybatis config
+    var configuration = new org.apache.ibatis.session.Configuration();
+    configuration.setMapUnderscoreToCamelCase(true);
+    fb.setConfiguration(configuration);
+    fb.setTypeAliasesPackage("com.adotcode.oauth2server.domain.entity");
     return fb.getObject();
   }
 

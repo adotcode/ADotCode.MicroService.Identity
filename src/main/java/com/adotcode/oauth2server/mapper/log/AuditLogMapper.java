@@ -1,7 +1,6 @@
 package com.adotcode.oauth2server.mapper.log;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.SelectProvider;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -21,7 +20,6 @@ public interface AuditLogMapper {
    * @param id id
    * @return 浏览器信息
    */
-  @SelectProvider(type = AuditLogSqlProvider.class, method = "findBrowserInfoById")
-  public String findBrowserInfoById(long id);
+  String findBrowserInfoById(long id);
 }
 

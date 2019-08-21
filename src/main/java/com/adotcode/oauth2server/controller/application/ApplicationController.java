@@ -1,11 +1,11 @@
 package com.adotcode.oauth2server.controller.application;
 
 import com.adotcode.oauth2server.common.util.i18n.I18nMessageUtils;
-import com.adotcode.oauth2server.domain.dto.response.application.LanguageMessageSourceResponse;
-import com.adotcode.oauth2server.domain.dto.response.application.LanguageResponse;
-import com.adotcode.oauth2server.domain.wrapper.ListResultWrapper;
-import com.adotcode.oauth2server.domain.wrapper.ResultWrapper;
-import com.adotcode.oauth2server.domain.wrapper.ResultWrapper.ErrorWrapper;
+import com.adotcode.oauth2server.model.response.application.LanguageMessageSourceResponse;
+import com.adotcode.oauth2server.model.response.application.LanguageResponse;
+import com.adotcode.oauth2server.model.wrapper.ListResultWrapper;
+import com.adotcode.oauth2server.model.wrapper.ResultWrapper;
+import com.adotcode.oauth2server.model.wrapper.ResultWrapper.ErrorWrapper;
 import com.adotcode.oauth2server.service.application.I18nService;
 import java.util.List;
 import java.util.stream.Collectors;
