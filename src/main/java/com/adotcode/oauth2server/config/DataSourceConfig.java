@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.sql.DataSource;
 import lombok.extern.slf4j.Slf4j;
-import lombok.var;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,6 +34,18 @@ public class DataSourceConfig {
    */
   @Value("${spring.datasource.type}")
   private Class<? extends DataSource> dataSourceType;
+
+  /**
+   * mapper xml 路径
+   */
+  @Value("${spring.datasource.mapper-locations}")
+  private String mapperLocations;
+
+  /**
+   * mapper type Aliases Package
+   */
+  @Value("${spring.datasource.type-aliases-package}")
+  private String typeAliasesPackage;
 
   /**
    * 主库数据源
@@ -93,13 +104,12 @@ public class DataSourceConfig {
     SqlSessionFactoryBean fb = new SqlSessionFactoryBean();
     // 指定数据源（否则报错）
     fb.setDataSource(ds);
-    fb.setMapperLocations(new PathMatchingResourcePatternResolver()
-        .getResources("classpath:mapper/**/**.xml"));
+    fb.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(mapperLocations));
     // mybatis config
-    var configuration = new org.apache.ibatis.session.Configuration();
+    org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
     configuration.setMapUnderscoreToCamelCase(true);
     fb.setConfiguration(configuration);
-    fb.setTypeAliasesPackage("com.adotcode.oauth2server.domain.entity");
+    fb.setTypeAliasesPackage(typeAliasesPackage);
     return fb.getObject();
   }
 
