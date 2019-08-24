@@ -1,11 +1,11 @@
 package com.adotcode.oauth2server.web.controller.application;
 
-import com.adotcode.oauth2server.common.util.i18n.I18nMessageUtils;
-import com.adotcode.oauth2server.model.response.application.LanguageMessageSourceResponse;
-import com.adotcode.oauth2server.model.response.application.LanguageResponse;
-import com.adotcode.oauth2server.model.wrapper.ListResultWrapper;
-import com.adotcode.oauth2server.model.wrapper.ResultWrapper;
-import com.adotcode.oauth2server.model.wrapper.ResultWrapper.ErrorWrapper;
+import com.adotcode.oauth2server.core.util.i18n.I18nMessageUtils;
+import com.adotcode.oauth2server.core.wrapper.ListResultWrapper;
+import com.adotcode.oauth2server.core.wrapper.ResultWrapper;
+import com.adotcode.oauth2server.core.wrapper.ResultWrapper.ErrorWrapper;
+import com.adotcode.oauth2server.model.output.application.LanguageMessageSourceOutput;
+import com.adotcode.oauth2server.model.output.application.LanguageOutput;
 import com.adotcode.oauth2server.service.application.I18nService;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,8 +39,8 @@ public class ApplicationController {
    * 获取语言列表
    */
   @GetMapping("i18n/languages")
-  public ListResultWrapper<LanguageResponse> getLanguages() {
-    List<LanguageResponse> result = i18nService.getLanguages();
+  public ListResultWrapper<LanguageOutput> getLanguages() {
+    List<LanguageOutput> result = i18nService.getLanguages();
     return ListResultWrapper.ok(result);
   }
 
@@ -53,7 +53,7 @@ public class ApplicationController {
   public ResultWrapper changeLanguage(@RequestParam String l) {
     List<String> applicationLanguages = i18nService.getLanguages()
         .stream()
-        .map(LanguageResponse::getLocale)
+        .map(LanguageOutput::getLocale)
         .collect(Collectors.toList());
     if (!applicationLanguages.contains(l)) {
       return ResultWrapper.error(ErrorWrapper
@@ -66,8 +66,8 @@ public class ApplicationController {
    * 获取语言资源列表
    */
   @GetMapping("i18n/languages/message-resources")
-  public ResultWrapper<LanguageMessageSourceResponse> getMessageResources() {
-    LanguageMessageSourceResponse result = i18nService.getLocaleMessageResources();
+  public ResultWrapper<LanguageMessageSourceOutput> getMessageResources() {
+    LanguageMessageSourceOutput result = i18nService.getLocaleMessageResources();
     return ResultWrapper.ok(result);
   }
 }

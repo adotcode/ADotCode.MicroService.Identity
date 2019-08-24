@@ -1,9 +1,10 @@
 package com.adotcode.oauth2server.service.application.impl;
 
-import com.adotcode.oauth2server.common.enums.i18n.LanguageEnum;
-import com.adotcode.oauth2server.model.response.application.KeyValueResponse;
-import com.adotcode.oauth2server.model.response.application.LanguageMessageSourceResponse;
-import com.adotcode.oauth2server.model.response.application.LanguageResponse;
+import com.adotcode.oauth2server.core.enums.i18n.LanguageEnum;
+import com.adotcode.oauth2server.core.util.i18n.I18nMessageUtils;
+import com.adotcode.oauth2server.model.output.application.KeyValueOutput;
+import com.adotcode.oauth2server.model.output.application.LanguageMessageSourceOutput;
+import com.adotcode.oauth2server.model.output.application.LanguageOutput;
 import com.adotcode.oauth2server.service.application.I18nService;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -37,14 +38,18 @@ public class I18nServiceImpl implements I18nService {
   /**
    * 获取语言列表
    *
-   * @return List<LanguageResponse>
+   * @return List<LanguageOutput>
    */
   @Override
-  public List<LanguageResponse> getLanguages() {
+  public List<LanguageOutput> getLanguages() {
     return Stream.of(LanguageEnum.values())
         .map(languageEnum -> {
-          return new LanguageResponse(languageEnum.getLanguage(), languageEnum.getLang(),
-              languageEnum.getCountry(), languageEnum.currentLocale());
+          return new LanguageOutput(
+              languageEnum.getLanguage(),
+              I18nMessageUtils.translate(languageEnum.getDisplayName()),
+              languageEnum.getLang(),
+              languageEnum.getCountry(),
+              languageEnum.currentLocale());
         })
         .collect(Collectors.toList());
   }
@@ -52,14 +57,14 @@ public class I18nServiceImpl implements I18nService {
   /**
    * 获取语言资源列表
    *
-   * @return LanguageMessageSourceResponse
+   * @return LanguageMessageSourceOutput
    */
   @Override
-  public LanguageMessageSourceResponse getLocaleMessageResources() {
+  public LanguageMessageSourceOutput getLocaleMessageResources() {
     Set<String> basenameSet = messageSource.getBasenameSet();
     Locale locale = LocaleContextHolder.getLocale();
     Iterator baseNameIterator = basenameSet.iterator();
-    List<KeyValueResponse> keyValueResponses = new LinkedList<>();
+    List<KeyValueOutput> keyValueRespons = new LinkedList<>();
     while (baseNameIterator.hasNext()) {
       String baseName = baseNameIterator.next().toString();
       ResourceBundle resourceBundle = ResourceBundle.getBundle(baseName, locale);
@@ -67,12 +72,12 @@ public class I18nServiceImpl implements I18nService {
       while (resourceBundleKeys.hasMoreElements()) {
         String key = resourceBundleKeys.nextElement();
         String value = resourceBundle.getString(key);
-        keyValueResponses.add(KeyValueResponse.builder().key(key).value(value).build());
+        keyValueRespons.add(KeyValueOutput.builder().key(key).value(value).build());
       }
     }
-    return LanguageMessageSourceResponse.builder()
+    return LanguageMessageSourceOutput.builder()
         .locale(locale.toString())
-        .messageSources(keyValueResponses)
+        .messageSources(keyValueRespons)
         .build();
   }
 }

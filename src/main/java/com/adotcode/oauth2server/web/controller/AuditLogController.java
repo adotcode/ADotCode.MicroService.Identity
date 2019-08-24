@@ -1,10 +1,10 @@
 package com.adotcode.oauth2server.web.controller;
 
-import com.adotcode.oauth2server.exception.application.GenericException;
-import com.adotcode.oauth2server.exception.application.IllegalParameterException;
-import com.adotcode.oauth2server.exception.application.NullOrEmptyException;
-import com.adotcode.oauth2server.exception.application.UnAuthorizedException;
-import com.adotcode.oauth2server.model.wrapper.ResultWrapper;
+import com.adotcode.oauth2server.core.exception.application.GenericException;
+import com.adotcode.oauth2server.core.exception.application.IllegalParameterException;
+import com.adotcode.oauth2server.core.exception.application.NullOrEmptyException;
+import com.adotcode.oauth2server.core.exception.application.UnAuthorizedException;
+import com.adotcode.oauth2server.core.wrapper.ResultWrapper;
 import com.adotcode.oauth2server.service.auditlog.AuditLogService;
 import javax.validation.constraints.Min;
 import lombok.extern.slf4j.Slf4j;
