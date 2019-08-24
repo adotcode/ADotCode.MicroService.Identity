@@ -1,7 +1,7 @@
 package com.adotcode.oauth2server.service.auditlog.impl;
 
 import com.adotcode.oauth2server.common.annotation.SwitchDataSource;
-import com.adotcode.oauth2server.common.database.datasource.DataSourceTypeEnum;
+import com.adotcode.oauth2server.common.database.DataSourceTypeEnum;
 import com.adotcode.oauth2server.mapper.log.AuditLogMapper;
 import com.adotcode.oauth2server.mapper.user.UserMapper;
 import com.adotcode.oauth2server.service.auditlog.AuditLogService;

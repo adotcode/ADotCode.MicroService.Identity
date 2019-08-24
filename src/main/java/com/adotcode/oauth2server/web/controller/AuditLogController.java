@@ -1,4 +1,4 @@
-package com.adotcode.oauth2server.controller;
+package com.adotcode.oauth2server.web.controller;
 
 import com.adotcode.oauth2server.exception.application.GenericException;
 import com.adotcode.oauth2server.exception.application.IllegalParameterException;

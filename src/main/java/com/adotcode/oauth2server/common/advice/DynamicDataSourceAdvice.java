@@ -1,7 +1,7 @@
 package com.adotcode.oauth2server.common.advice;
 
 import com.adotcode.oauth2server.common.annotation.SwitchDataSource;
-import com.adotcode.oauth2server.common.database.datasource.DataSourceContextHolder;
+import com.adotcode.oauth2server.common.database.DataSourceContextHolder;
 import com.adotcode.oauth2server.common.util.i18n.I18nMessageUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;

@@ -1,4 +1,4 @@
-package com.adotcode.oauth2server.controller.application;
+package com.adotcode.oauth2server.web.controller.application;
 
 import com.adotcode.oauth2server.common.util.i18n.I18nMessageUtils;
 import com.adotcode.oauth2server.model.response.application.LanguageMessageSourceResponse;

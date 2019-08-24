@@ -1,7 +1,7 @@
 package com.adotcode.oauth2server.config;
 
-import com.adotcode.oauth2server.common.database.datasource.DataSourceTypeEnum;
-import com.adotcode.oauth2server.common.database.datasource.DynamicDataSource;
+import com.adotcode.oauth2server.common.database.DataSourceTypeEnum;
+import com.adotcode.oauth2server.common.database.DynamicDataSource;
 import java.util.HashMap;
 import java.util.Map;
 import javax.sql.DataSource;

@@ -1,4 +1,4 @@
-package com.adotcode.oauth2server.common.database.datasource;
+package com.adotcode.oauth2server.common.database;
 
 /**
  * 数据源类型枚举

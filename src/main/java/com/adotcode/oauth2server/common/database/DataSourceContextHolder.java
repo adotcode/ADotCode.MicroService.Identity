@@ -1,4 +1,4 @@
-package com.adotcode.oauth2server.common.database.datasource;
+package com.adotcode.oauth2server.common.database;
 
 import com.adotcode.oauth2server.common.util.i18n.I18nMessageUtils;
 import lombok.extern.slf4j.Slf4j;
