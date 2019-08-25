@@ -14,19 +14,25 @@ public enum YesNoEnum {
   /**
    * 否/禁用
    */
-  NO(0),
+  NO(0, "application.enum.application.yesOrNo.no"),
 
   /**
    * 是/启用
    */
-  YES(1);
+  YES(1, "application.enum.application.yesOrNo.yes");
 
   /**
    * 枚举值
    */
   private Integer value;
 
-  YesNoEnum(Integer value) {
+  /**
+   * 显示名称
+   */
+  private String displayName;
+
+  YesNoEnum(Integer value, String displayName) {
     this.value = value;
+    this.displayName = displayName;
   }
 }

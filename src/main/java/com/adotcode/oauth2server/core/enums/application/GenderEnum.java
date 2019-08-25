@@ -25,11 +25,11 @@ public enum GenderEnum {
   /**
    * 女变男
    */
-  FEMALE_TO_MALE(5, "application.enum.application.gender.female.to.male"),
+  FEMALE_TO_MALE(5, "application.enum.application.gender.femaleToMale"),
   /**
    * 男变女
    */
-  MALE_TO_feMALE(6, "application.enum.application.gender.male.to.female"),
+  MALE_TO_feMALE(6, "application.enum.application.gender.maleToFemale"),
   /**
    * 未说明的
    */
