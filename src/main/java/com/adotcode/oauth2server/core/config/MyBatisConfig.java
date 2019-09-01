@@ -1,6 +1,6 @@
 package com.adotcode.oauth2server.core.config;
 
-import com.adotcode.oauth2server.core.plugin.VersionInterceptor;
+import com.adotcode.oauth2server.core.interceptor.VersionInterceptor;
 import org.apache.ibatis.plugin.Interceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

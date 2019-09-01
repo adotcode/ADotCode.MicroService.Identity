@@ -20,21 +20,31 @@ spring:
   messages:
     encoding: utf-8
     base-folder: i18n
+  output:
+    ansi:
+      enabled: detect #启用彩色日志 NEVER、DETECT（推荐）、ALWAYS
 
 pagehelper:
   helper-dialect: mysql
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
-
+#json 格式化日期格式
 json:
   date-format: yyyy-MM-dd HH:mm:ss
+
+#日志配置
+logging:
+  config:
+    filter:
+      request-header: X-Track-Id #上游请求 日志跟踪Id头名称
+      response-header: X-Track-Id #响应日志跟踪Id头名称
+      mdc-track-key: track-id #mdc中跟踪唯一键名（key）记录日志输出时用
 
 #mybatis config
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #sql语句控制台输出
-# 日志配置
-
+    # 日志配置
 
 

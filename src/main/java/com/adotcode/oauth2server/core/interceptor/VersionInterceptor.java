@@ -1,4 +1,4 @@
-package com.adotcode.oauth2server.core.plugin;
+package com.adotcode.oauth2server.core.interceptor;
 
 import java.lang.reflect.Proxy;
 import java.util.List;
