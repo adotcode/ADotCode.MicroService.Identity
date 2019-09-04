@@ -1,4 +1,4 @@
-package com.adotcode.oauth2server.core.config;
+package com.adotcode.oauth2server.config;
 
 import com.adotcode.oauth2server.core.database.DataSourceTypeEnum;
 import com.adotcode.oauth2server.core.database.DynamicDataSource;
@@ -38,14 +38,21 @@ public class DataSourceConfig {
   /**
    * mapper xml 路径
    */
-  @Value("${spring.datasource.mapper-locations}")
+  @Value("${mybatis.config-location}")
   private String mapperLocations;
 
   /**
    * mapper type Aliases Package
    */
-  @Value("${spring.datasource.type-aliases-package}")
+  @Value("${mybatis.type-aliases-package}")
   private String typeAliasesPackage;
+
+  /**
+   * mapper data type handler Package
+   */
+  @Value("${mybatis.type-handlers-package}")
+  private String typeHandlersPackage;
+
 
   /**
    * 主库数据源
@@ -110,6 +117,7 @@ public class DataSourceConfig {
     configuration.setMapUnderscoreToCamelCase(true);
     fb.setConfiguration(configuration);
     fb.setTypeAliasesPackage(typeAliasesPackage);
+    fb.setTypeHandlersPackage(typeHandlersPackage);
     return fb.getObject();
   }
 

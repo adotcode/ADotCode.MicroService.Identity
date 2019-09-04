@@ -1,4 +1,4 @@
-package com.adotcode.oauth2server.core.config;
+package com.adotcode.oauth2server.config;
 
 import java.io.File;
 import java.io.IOException;

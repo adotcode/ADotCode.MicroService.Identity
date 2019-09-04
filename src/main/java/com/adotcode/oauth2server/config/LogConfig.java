@@ -1,4 +1,4 @@
-package com.adotcode.oauth2server.core.config;
+package com.adotcode.oauth2server.config;
 
 import com.adotcode.oauth2server.core.filter.LogFilter;
 import org.springframework.beans.factory.annotation.Value;

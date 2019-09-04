@@ -7,6 +7,7 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.persistence.Id;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,19 +21,24 @@ import org.springframework.transaction.annotation.Transactional;
  * @date 2019/08/25
  */
 @Slf4j
-public class BaseServiceImpl<TEntity, TPrimaryKey> implements BaseService<TEntity, TPrimaryKey> {
+public abstract class BaseAdcServiceImpl<TEntity, TPrimaryKey> implements
+    BaseAdcService<TEntity, TPrimaryKey> {
 
-  private final Mapper<TEntity> mapper;
-  private Class<TEntity> entityClass;
+  /**
+   * 自定义基础Mapper
+   */
+  @Resource
+  private Mapper<TEntity> mapper;
+
+  /**
+   * TEntity 类型
+   */
+  private Class<? extends TEntity> entityClass;
 
   @SuppressWarnings("unchecked")
   @PostConstruct
   public void init() {
     this.entityClass = ReflectionUtils.getClassGenericType(getClass());
-  }
-
-  public BaseServiceImpl(Mapper<TEntity> mapper) {
-    this.mapper = mapper;
   }
 
   /**
@@ -350,8 +356,8 @@ public class BaseServiceImpl<TEntity, TPrimaryKey> implements BaseService<TEntit
    * @param record 操作记录
    */
   private void checkOptimisticLock(int updateCount, TEntity record) {
-    if (updateCount == 0 && record instanceof BaseEntity) {
-      BaseEntity baseEntity = (BaseEntity) record;
+    if (updateCount == 0 && record instanceof BaseAdcEntity) {
+      BaseAdcEntity baseEntity = (BaseAdcEntity) record;
       if (baseEntity.getVersion() > 0) {
         throw new OptimisticLockException();
       }

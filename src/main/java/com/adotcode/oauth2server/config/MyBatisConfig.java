@@ -1,4 +1,4 @@
-package com.adotcode.oauth2server.core.config;
+package com.adotcode.oauth2server.config;
 
 import com.adotcode.oauth2server.core.interceptor.VersionInterceptor;
 import org.apache.ibatis.plugin.Interceptor;

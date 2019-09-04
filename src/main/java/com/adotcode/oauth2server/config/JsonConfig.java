@@ -1,4 +1,4 @@
-package com.adotcode.oauth2server.core.config;
+package com.adotcode.oauth2server.config;
 
 import com.alibaba.fastjson.PropertyNamingStrategy;
 import com.alibaba.fastjson.parser.Feature;

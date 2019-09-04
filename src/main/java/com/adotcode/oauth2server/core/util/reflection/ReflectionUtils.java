@@ -1,5 +1,6 @@
 package com.adotcode.oauth2server.core.util.reflection;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
@@ -58,8 +59,8 @@ public class ReflectionUtils {
    * @param annotationClass 注解类型
    * @return 返回第一个有该注解类型的Field, 如果没有则返回null.
    */
-  @SuppressWarnings("unchecked")
-  public static Field getFieldByAnnotation(Class entityClass, Class annotationClass) {
+  public static Field getFieldByAnnotation(Class entityClass,
+      Class<? extends Annotation> annotationClass) {
     Field[] fields = entityClass.getDeclaredFields();
     for (Field field : fields) {
       if (field.getAnnotation(annotationClass) != null) {

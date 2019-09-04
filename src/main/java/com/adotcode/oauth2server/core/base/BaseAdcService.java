@@ -10,7 +10,7 @@ import java.util.List;
  * @author risfeng
  * @date 2019/08/25
  */
-public interface BaseService<TEntity, TPrimaryKey> {
+public interface BaseAdcService<TEntity, TPrimaryKey> {
 
   /**
    * 保存一个实体，null的属性也会保存，不会使用数据库默认值
