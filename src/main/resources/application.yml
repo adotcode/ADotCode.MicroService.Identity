@@ -44,7 +44,7 @@ mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #sql语句控制台输出
     # 日志配置
-  type-aliases-package: com.adotcode.oauth2server.domain.entity
+  type-aliases-package: com.adotcode.oauth2server.entity
   type-handlers-package: com.adotcode.oauth2server.core.handler.datatype
   config-location: classpath:mapper/**/**.xml
 
@@ -53,3 +53,31 @@ mapper:
   mappers: com.adotcode.oauth2server.core.base.Mapper
   not-empty: false
   identity: MYSQL
+
+#swagger 配置
+swagger:
+  apis:
+    base-package: com.adotcode.oauth2server.web.controller
+  ui:
+    header: Referer
+    host-url-protocol: http
+    host-url: swagger.paas.gaodunwangxiao.com
+  api-info:
+    title: Adc OAuth2.0 Server
+    description: A Dot Code Micro Service Application Of OAuth2 Server
+    version: v1.0.0
+    terms-of-service-url: https://service.adotcode.com
+    license: GNU Lesser General Public License v3.0
+    license-url: https://www.gnu.org/licenses/gpl-3.0.en.html
+    contact:
+      name: adc.com
+      url: https://service.adotcode.com
+      email: service@adotcode.com
+    vendor-extensions: #扩展字段list
+      - name: author
+        value: risfeng
+      - name: since
+        value: 2019-09-06
+
+
+

@@ -1,7 +1,7 @@
 package com.adotcode.oauth2server.service.organization.impl;
 
 import com.adotcode.oauth2server.core.base.BaseAdcServiceImpl;
-import com.adotcode.oauth2server.domain.entity.Organization;
+import com.adotcode.oauth2server.entity.Organization;
 import com.adotcode.oauth2server.mapper.organization.OrganizationMapper;
 import com.adotcode.oauth2server.service.organization.OrganizationService;
 import java.util.List;

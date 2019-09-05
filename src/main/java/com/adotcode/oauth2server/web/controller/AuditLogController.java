@@ -5,7 +5,7 @@ import com.adotcode.oauth2server.core.exception.application.IllegalParameterExce
 import com.adotcode.oauth2server.core.exception.application.NullOrEmptyException;
 import com.adotcode.oauth2server.core.exception.application.UnAuthorizedException;
 import com.adotcode.oauth2server.core.wrapper.ResultWrapper;
-import com.adotcode.oauth2server.domain.entity.Organization;
+import com.adotcode.oauth2server.entity.Organization;
 import com.adotcode.oauth2server.service.auditlog.AuditLogService;
 import com.adotcode.oauth2server.service.organization.OrganizationService;
 import java.util.UUID;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 审计日志控制器
+ * 审计日志控制器[测试控制器]
  *
  * @author risfeng
  * @version 1.0.0

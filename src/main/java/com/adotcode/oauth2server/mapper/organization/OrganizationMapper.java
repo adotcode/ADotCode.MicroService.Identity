@@ -1,6 +1,6 @@
 package com.adotcode.oauth2server.mapper.organization;
 
-import com.adotcode.oauth2server.domain.entity.Organization;
+import com.adotcode.oauth2server.entity.Organization;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
