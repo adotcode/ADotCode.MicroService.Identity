@@ -1,4 +1,4 @@
-package com.adotcode.oauth2server.entity;
+package com.adotcode.oauth2server.domain.entity;
 
 import java.util.ArrayList;
 import java.util.Date;

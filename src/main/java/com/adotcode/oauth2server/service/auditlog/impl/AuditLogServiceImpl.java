@@ -2,8 +2,8 @@ package com.adotcode.oauth2server.service.auditlog.impl;
 
 import com.adotcode.oauth2server.core.annotation.SwitchDataSource;
 import com.adotcode.oauth2server.core.database.DataSourceTypeEnum;
-import com.adotcode.oauth2server.mapper.log.AuditLogMapper;
-import com.adotcode.oauth2server.mapper.user.UserMapper;
+import com.adotcode.oauth2server.domain.mapper.log.AuditLogMapper;
+import com.adotcode.oauth2server.domain.mapper.user.UserMapper;
 import com.adotcode.oauth2server.service.auditlog.AuditLogService;
 import org.springframework.stereotype.Service;
 

@@ -1,8 +1,8 @@
-package com.adotcode.oauth2server.mapper.organization;
+package com.adotcode.oauth2server.domain.mapper.organization;
 
-import com.adotcode.oauth2server.entity.Organization;
+import com.adotcode.oauth2server.domain.entity.Organization;
 import java.util.List;
-import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * ${description}
@@ -10,10 +10,9 @@ import org.apache.ibatis.annotations.Mapper;
  * @author risfeng
  * @date 2019/09/04
  */
-@Mapper
+@Repository
 public interface OrganizationMapper extends
     com.adotcode.oauth2server.core.base.Mapper<Organization> {
-
 
   /**
    * 批量更新

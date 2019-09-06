@@ -1,4 +1,4 @@
-package com.adotcode.oauth2server.core.wrapper;
+package com.adotcode.oauth2server.core.response;
 
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
  * @date 2019-07-14
  */
 @NoArgsConstructor
-public class ListResultWrapper<T> extends ResultWrapper<ListResultWrapper.ListResult<T>> {
+public class ListHttpResult<T> extends HttpResult<ListHttpResult.ListResult<T>> {
 
   /**
    * 列表返回
@@ -36,8 +36,8 @@ public class ListResultWrapper<T> extends ResultWrapper<ListResultWrapper.ListRe
    *
    * @param data 列表数据
    */
-  private ListResultWrapper(List<T> data) {
-    super(new ListResultWrapper.ListResult<>(data));
+  private ListHttpResult(List<T> data) {
+    super(new ListHttpResult.ListResult<>(data));
   }
 
   /**
@@ -45,9 +45,9 @@ public class ListResultWrapper<T> extends ResultWrapper<ListResultWrapper.ListRe
    *
    * @param data data
    * @param <T> object T
-   * @return ResultWrapper<T>
+   * @return HttpResult<T>
    */
-  public static <T> ListResultWrapper<T> ok(List<T> data) {
-    return new ListResultWrapper<>(data);
+  public static <T> ListHttpResult<T> ok(List<T> data) {
+    return new ListHttpResult<>(data);
   }
 }

@@ -21,7 +21,7 @@ public class MyBatisConfig {
   @Bean
   public static MapperScannerConfigurer mapperScannerConfigurer() {
     MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
-    mapperScannerConfigurer.setBasePackage("com.adotcode.oauth2server.mapper");
+    mapperScannerConfigurer.setBasePackage("com.adotcode.oauth2server.domain.mapper");
     return mapperScannerConfigurer;
   }
 

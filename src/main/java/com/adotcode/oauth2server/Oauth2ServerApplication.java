@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * exclude = {DataSourceAutoConfiguration.class}
  * <p>
  * 禁用springboot默认加载的application.yml单数据源配置
- * <p>@MapperScan({"com.adotcode.oauth2server.mapper"})
+ * <p>@MapperScan({"com.adotcode.oauth2server.domain.mapper"})
  *
  * @author risfeng
  * @version 1.0.0

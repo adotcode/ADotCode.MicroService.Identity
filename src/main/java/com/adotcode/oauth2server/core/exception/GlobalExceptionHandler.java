@@ -9,9 +9,9 @@ import com.adotcode.oauth2server.core.exception.application.IllegalPropertiesExc
 import com.adotcode.oauth2server.core.exception.application.NullOrEmptyException;
 import com.adotcode.oauth2server.core.exception.application.ParseFailedException;
 import com.adotcode.oauth2server.core.exception.application.UnAuthorizedException;
+import com.adotcode.oauth2server.core.response.HttpResult;
+import com.adotcode.oauth2server.core.response.HttpResult.ErrorWrapper;
 import com.adotcode.oauth2server.core.util.i18n.I18nMessageUtils;
-import com.adotcode.oauth2server.core.wrapper.ResultWrapper;
-import com.adotcode.oauth2server.core.wrapper.ResultWrapper.ErrorWrapper;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(Exception.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   @ResponseBody
-  public ResultWrapper onException(Exception e) {
+  public HttpResult onException(Exception e) {
     String message = I18nMessageUtils
         .translate(ResultCodeEnum.INTERNAL_SERVER_ERROR.reasonPhrase());
     log.error(message, e);
@@ -64,7 +64,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(UnAuthorizedException.class)
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
   @ResponseBody
-  public ResultWrapper onUnauthorizedException(UnAuthorizedException e) {
+  public HttpResult onUnauthorizedException(UnAuthorizedException e) {
     return wrapperErrorResult(e);
   }
 
@@ -77,7 +77,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(ForbiddenException.class)
   @ResponseStatus(HttpStatus.FORBIDDEN)
   @ResponseBody
-  public ResultWrapper onForbiddenException(ForbiddenException e) {
+  public HttpResult onForbiddenException(ForbiddenException e) {
     return wrapperErrorResult(e);
   }
 
@@ -90,7 +90,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(NullOrEmptyException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ResponseBody
-  public ResultWrapper onNullOrEmptyException(NullOrEmptyException e) {
+  public HttpResult onNullOrEmptyException(NullOrEmptyException e) {
     return wrapperErrorResult(e);
   }
 
@@ -103,7 +103,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(IllegalPropertiesException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ResponseBody
-  public ResultWrapper onIllegalPropertiesException(IllegalPropertiesException e) {
+  public HttpResult onIllegalPropertiesException(IllegalPropertiesException e) {
     return wrapperErrorResult(e);
   }
 
@@ -116,7 +116,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(IllegalParameterException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ResponseBody
-  public ResultWrapper onIllegalParameterException(IllegalParameterException e) {
+  public HttpResult onIllegalParameterException(IllegalParameterException e) {
     return wrapperErrorResult(e);
   }
 
@@ -129,7 +129,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(ConstraintViolationException.class)
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   @ResponseBody
-  public ResultWrapper onConstraintViolationException(ConstraintViolationException e) {
+  public HttpResult onConstraintViolationException(ConstraintViolationException e) {
     Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
     if (!CollectionUtils.isEmpty(constraintViolations)) {
       List<String> errorMessage = constraintViolations
@@ -150,7 +150,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(MethodArgumentNotValidException.class)
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   @ResponseBody
-  public ResultWrapper onMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+  public HttpResult onMethodArgumentNotValidException(MethodArgumentNotValidException e) {
     List<FieldError> objectErrors = e.getBindingResult().getFieldErrors();
     if (!CollectionUtils.isEmpty(objectErrors)) {
       List<String> errorMessage = objectErrors
@@ -173,7 +173,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(MissingServletRequestParameterException.class)
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   @ResponseBody
-  public ResultWrapper onMissingServletRequestParameterException(
+  public HttpResult onMissingServletRequestParameterException(
       MissingServletRequestParameterException e) {
     return wrapperErrorResult(e);
   }
@@ -187,7 +187,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(GenericException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ResponseBody
-  public ResultWrapper onGenericException(GenericException e) {
+  public HttpResult onGenericException(GenericException e) {
     return wrapperErrorResult(e);
   }
 
@@ -200,7 +200,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(ParseFailedException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ResponseBody
-  public ResultWrapper onParseFailedException(ParseFailedException e) {
+  public HttpResult onParseFailedException(ParseFailedException e) {
     return wrapperErrorResult(e);
   }
 
@@ -208,17 +208,17 @@ public class GlobalExceptionHandler {
    * 错误信息返回辅助
    *
    * @param e Exception
-   * @return ResultWrapper
+   * @return HttpResult
    */
-  private ResultWrapper wrapperErrorResult(Exception e) {
+  private HttpResult wrapperErrorResult(Exception e) {
     if (e instanceof MissingServletRequestParameterException) {
       MissingServletRequestParameterException missingServletRequestParameterException =
           (MissingServletRequestParameterException) e;
       String message = I18nMessageUtils.translate("exception.parameter.required.not.present",
           missingServletRequestParameterException.getParameterName());
-      return ResultWrapper.error(ErrorWrapper.newInstance(message));
+      return HttpResult.error(ErrorWrapper.newInstance(message));
     }
-    return ResultWrapper
+    return HttpResult
         .error(ErrorWrapper.newInstance(I18nMessageUtils.translate(e.getMessage())));
   }
 
@@ -227,10 +227,10 @@ public class GlobalExceptionHandler {
    *
    * @param code 错误代码
    * @param errorObj 错误消息描述
-   * @return ResultWrapper
+   * @return HttpResult
    */
-  private ResultWrapper wrapperErrorResult(ResultCodeEnum code, Object errorObj) {
-    return ResultWrapper.error(code.value(), I18nMessageUtils.translate(code.reasonPhrase()),
+  private HttpResult wrapperErrorResult(ResultCodeEnum code, Object errorObj) {
+    return HttpResult.error(code.value(), I18nMessageUtils.translate(code.reasonPhrase()),
         ErrorWrapper.newInstance(errorObj));
   }
 
@@ -238,10 +238,10 @@ public class GlobalExceptionHandler {
    * 错误信息返回辅助
    *
    * @param e BaseException
-   * @return ResultWrapper
+   * @return HttpResult
    */
-  private ResultWrapper wrapperErrorResult(BaseException e) {
-    return ResultWrapper.error(e.getCode(), I18nMessageUtils.translate(e.getMessage()),
+  private HttpResult wrapperErrorResult(BaseException e) {
+    return HttpResult.error(e.getCode(), I18nMessageUtils.translate(e.getMessage()),
         ErrorWrapper.newInstance(I18nMessageUtils.translate(e.getMessage())));
   }
 }

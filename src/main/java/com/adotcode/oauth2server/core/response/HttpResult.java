@@ -1,4 +1,4 @@
-package com.adotcode.oauth2server.core.wrapper;
+package com.adotcode.oauth2server.core.response;
 
 import com.adotcode.oauth2server.core.enums.result.ResultCodeEnum;
 import com.adotcode.oauth2server.core.util.http.RequestUtils;
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
-public class ResultWrapper<T> {
+public class HttpResult<T> {
 
   /**
    * result code
@@ -48,7 +48,7 @@ public class ResultWrapper<T> {
    *
    * @param data data
    */
-  ResultWrapper(T data) {
+  HttpResult(T data) {
     this.code = ResultCodeEnum.SUCCESS.value();
     this.message = I18nMessageUtils.translate(ResultCodeEnum.SUCCESS.reasonPhrase());
     this.data = data;
@@ -62,7 +62,7 @@ public class ResultWrapper<T> {
    * @param data data
    * @param error errorWrapper
    */
-  private ResultWrapper(String code, String message, T data, ErrorWrapper error) {
+  private HttpResult(String code, String message, T data, ErrorWrapper error) {
     this.code = code;
     this.message = message;
     this.data = data;
@@ -75,7 +75,7 @@ public class ResultWrapper<T> {
    * @param code code
    * @param message message
    */
-  private ResultWrapper(String code, String message) {
+  private HttpResult(String code, String message) {
     this.code = code;
     this.message = message;
   }
@@ -87,7 +87,7 @@ public class ResultWrapper<T> {
    * @param message message
    * @param error errorWrapper
    */
-  private ResultWrapper(String code, String message, ErrorWrapper error) {
+  private HttpResult(String code, String message, ErrorWrapper error) {
     this.code = code;
     this.message = message;
     this.error = error;
@@ -96,10 +96,10 @@ public class ResultWrapper<T> {
   /**
    * ok result
    *
-   * @return ResultWrapper
+   * @return HttpResult
    */
-  public static ResultWrapper ok() {
-    return new ResultWrapper(
+  public static HttpResult ok() {
+    return new HttpResult(
         ResultCodeEnum.SUCCESS.value(),
         I18nMessageUtils.translate(ResultCodeEnum.SUCCESS.reasonPhrase()));
   }
@@ -109,10 +109,10 @@ public class ResultWrapper<T> {
    *
    * @param data data
    * @param <T> object T
-   * @return ResultWrapper<T>
+   * @return HttpResult<T>
    */
-  public static <T> ResultWrapper<T> ok(T data) {
-    return new ResultWrapper<>(
+  public static <T> HttpResult<T> ok(T data) {
+    return new HttpResult<>(
         ResultCodeEnum.SUCCESS.value(),
         I18nMessageUtils.translate(ResultCodeEnum.SUCCESS.reasonPhrase()),
         data,
@@ -122,12 +122,12 @@ public class ResultWrapper<T> {
   /**
    * 错误结果返回
    *
-   * @return ResultWrapper
+   * @return HttpResult
    */
-  public static ResultWrapper error() {
+  public static HttpResult error() {
     String message = I18nMessageUtils.translate(ResultCodeEnum.ERROR.reasonPhrase());
     ErrorWrapper errorWrapper = new ErrorWrapper(message);
-    return new ResultWrapper(
+    return new HttpResult(
         ResultCodeEnum.ERROR.value(),
         message,
         errorWrapper);
@@ -136,10 +136,10 @@ public class ResultWrapper<T> {
   /**
    * 错误结果返回
    *
-   * @return ResultWrapper
+   * @return HttpResult
    */
-  public static ResultWrapper error(ErrorWrapper errorWrapper) {
-    return new ResultWrapper(
+  public static HttpResult error(ErrorWrapper errorWrapper) {
+    return new HttpResult(
         ResultCodeEnum.ERROR.value(),
         I18nMessageUtils.translate(ResultCodeEnum.ERROR.reasonPhrase()),
         errorWrapper);
@@ -148,10 +148,10 @@ public class ResultWrapper<T> {
   /**
    * 错误结果返回
    *
-   * @return ResultWrapper
+   * @return HttpResult
    */
-  public static ResultWrapper error(String code, String message, ErrorWrapper errorWrapper) {
-    return new ResultWrapper(code, message, errorWrapper);
+  public static HttpResult error(String code, String message, ErrorWrapper errorWrapper) {
+    return new HttpResult(code, message, errorWrapper);
   }
 
   /**

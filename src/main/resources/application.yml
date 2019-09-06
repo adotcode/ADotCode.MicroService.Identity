@@ -43,8 +43,7 @@ logging:
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #sql语句控制台输出
-    # 日志配置
-  type-aliases-package: com.adotcode.oauth2server.entity
+  type-aliases-package: com.adotcode.oauth2server.domain.entity
   type-handlers-package: com.adotcode.oauth2server.core.handler.datatype
   config-location: classpath:mapper/**/**.xml
 
@@ -57,10 +56,10 @@ mapper:
 #swagger 配置
 swagger:
   apis:
-    base-package: com.adotcode.oauth2server.web.controller
+    base-package: com.adotcode.oauth2server.facade.endpoint
   ui:
     header: Referer
-    host-url-protocol: http
+    host-url-protocol: response
     host-url: swagger.paas.gaodunwangxiao.com
   api-info:
     title: Adc OAuth2.0 Server

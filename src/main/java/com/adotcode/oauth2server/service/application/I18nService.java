@@ -1,7 +1,7 @@
 package com.adotcode.oauth2server.service.application;
 
-import com.adotcode.oauth2server.model.output.application.LanguageMessageSourceOutput;
-import com.adotcode.oauth2server.model.output.application.LanguageOutput;
+import com.adotcode.oauth2server.facade.model.output.application.LanguageMessageSourceOutput;
+import com.adotcode.oauth2server.facade.model.output.application.LanguageOutput;
 import java.util.List;
 
 /**

@@ -1,6 +1,5 @@
-package com.adotcode.oauth2server.mapper.log;
+package com.adotcode.oauth2server.domain.mapper.log;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Repository;
  * @date 2019-07-15
  */
 @Repository
-@Mapper
 public interface AuditLogMapper {
 
   /**

@@ -1,13 +1,13 @@
-package com.adotcode.oauth2server.web.controller.application;
+package com.adotcode.oauth2server.facade.endpoint;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
+import com.adotcode.oauth2server.core.response.HttpResult;
+import com.adotcode.oauth2server.core.response.HttpResult.ErrorWrapper;
+import com.adotcode.oauth2server.core.response.ListHttpResult;
 import com.adotcode.oauth2server.core.util.i18n.I18nMessageUtils;
-import com.adotcode.oauth2server.core.wrapper.ListResultWrapper;
-import com.adotcode.oauth2server.core.wrapper.ResultWrapper;
-import com.adotcode.oauth2server.core.wrapper.ResultWrapper.ErrorWrapper;
-import com.adotcode.oauth2server.model.output.application.LanguageMessageSourceOutput;
-import com.adotcode.oauth2server.model.output.application.LanguageOutput;
+import com.adotcode.oauth2server.facade.model.output.application.LanguageMessageSourceOutput;
+import com.adotcode.oauth2server.facade.model.output.application.LanguageOutput;
 import com.adotcode.oauth2server.service.application.I18nService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,11 +31,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @Validated
 @Api(value = "应用基础信息")
-public class ApplicationController {
+public class ApplicationEndPoint {
 
   private final I18nService i18nService;
 
-  public ApplicationController(
+  public ApplicationEndPoint(
       I18nService i18nService) {
     this.i18nService = i18nService;
   }
@@ -51,9 +51,9 @@ public class ApplicationController {
       response = LanguageOutput.class,
       responseContainer = "List",
       consumes = APPLICATION_JSON_UTF8_VALUE)
-  public ListResultWrapper<LanguageOutput> getLanguages() {
+  public ListHttpResult<LanguageOutput> getLanguages() {
     List<LanguageOutput> result = i18nService.getLanguages();
-    return ListResultWrapper.ok(result);
+    return ListHttpResult.ok(result);
   }
 
   /**
@@ -66,19 +66,19 @@ public class ApplicationController {
       httpMethod = "GET",
       value = "切换语言",
       notes = "根据参数l系统自动切换语言",
-      response = ResultWrapper.class,
+      response = HttpResult.class,
       responseContainer = "List",
       consumes = APPLICATION_JSON_UTF8_VALUE)
-  public ResultWrapper changeLanguage(@RequestParam String l) {
+  public HttpResult changeLanguage(@RequestParam String l) {
     List<String> applicationLanguages = i18nService.getLanguages()
         .stream()
         .map(LanguageOutput::getLocale)
         .collect(Collectors.toList());
     if (!applicationLanguages.contains(l)) {
-      return ResultWrapper.error(ErrorWrapper
+      return HttpResult.error(ErrorWrapper
           .newInstance(I18nMessageUtils.translate("application.i18n.language.not.present", l)));
     }
-    return ResultWrapper.ok();
+    return HttpResult.ok();
   }
 
   /**
@@ -92,8 +92,8 @@ public class ApplicationController {
       response = LanguageMessageSourceOutput.class,
       responseContainer = "List",
       consumes = APPLICATION_JSON_UTF8_VALUE)
-  public ResultWrapper<LanguageMessageSourceOutput> getMessageResources() {
+  public HttpResult<LanguageMessageSourceOutput> getMessageResources() {
     LanguageMessageSourceOutput result = i18nService.getLocaleMessageResources();
-    return ResultWrapper.ok(result);
+    return HttpResult.ok(result);
   }
 }

@@ -1,4 +1,4 @@
-package com.adotcode.oauth2server.model.output.application;
+package com.adotcode.oauth2server.facade.model.output.application;
 
 import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.ApiModel;

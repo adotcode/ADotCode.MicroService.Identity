@@ -39,7 +39,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 @Profile({"!prod"})
-@ControllerAdvice(basePackages = {"com.adotcode.oauth2server.web.controller"})
+@ControllerAdvice(basePackages = {"com.adotcode.oauth2server.facade.endpoint"})
 @ConfigurationProperties(prefix = "swagger.api-info")
 public class Swagger2Config {
 

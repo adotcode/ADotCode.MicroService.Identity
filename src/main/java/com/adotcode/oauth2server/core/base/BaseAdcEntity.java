@@ -77,7 +77,7 @@ public abstract class BaseAdcEntity<TPrimaryKey, TAuditBy> implements Serializab
    */
   @ApiModelProperty(value = "是否删除", dataType = "boolean", example = "true")
   @Column(name = "deleted")
-  private boolean deleted = false;
+  private Boolean deleted = false;
 
   /**
    * 删除人

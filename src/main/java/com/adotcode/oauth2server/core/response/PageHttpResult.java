@@ -1,4 +1,4 @@
-package com.adotcode.oauth2server.core.wrapper;
+package com.adotcode.oauth2server.core.response;
 
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
  * @date 2019-07-15
  */
 @NoArgsConstructor
-public class PageResultWrapper<T> extends ResultWrapper<PageResultWrapper.PageResult<T>> {
+public class PageHttpResult<T> extends HttpResult<PageHttpResult.PageResult<T>> {
 
   /**
    * 默认分页大小
@@ -64,8 +64,8 @@ public class PageResultWrapper<T> extends ResultWrapper<PageResultWrapper.PageRe
    * @param total total items
    * @param pageIndex page index
    */
-  private PageResultWrapper(List<T> data, long total, long pageIndex) {
-    super(new PageResultWrapper.PageResult<>(data, total, pageIndex, DEFAULT_PAGE_SIZE));
+  private PageHttpResult(List<T> data, long total, long pageIndex) {
+    super(new PageHttpResult.PageResult<>(data, total, pageIndex, DEFAULT_PAGE_SIZE));
   }
 
   /**
@@ -76,8 +76,8 @@ public class PageResultWrapper<T> extends ResultWrapper<PageResultWrapper.PageRe
    * @param pageIndex page index
    * @param pageSize page size
    */
-  private PageResultWrapper(List<T> data, long total, long pageIndex, long pageSize) {
-    super(new PageResultWrapper.PageResult<>(data, total, pageIndex, pageSize));
+  private PageHttpResult(List<T> data, long total, long pageIndex, long pageSize) {
+    super(new PageHttpResult.PageResult<>(data, total, pageIndex, pageSize));
   }
 
   /**
@@ -87,10 +87,10 @@ public class PageResultWrapper<T> extends ResultWrapper<PageResultWrapper.PageRe
    * @param total total items
    * @param pageIndex page index
    * @param <T> T
-   * @return PageResultWrapper<T>
+   * @return PageHttpResult<T>
    */
-  public static <T> PageResultWrapper<T> ok(List<T> data, long total, long pageIndex) {
-    return new PageResultWrapper<>(data, total, pageIndex);
+  public static <T> PageHttpResult<T> ok(List<T> data, long total, long pageIndex) {
+    return new PageHttpResult<>(data, total, pageIndex);
   }
 
   /**
@@ -101,11 +101,11 @@ public class PageResultWrapper<T> extends ResultWrapper<PageResultWrapper.PageRe
    * @param pageIndex page index
    * @param pageSize page size
    * @param <T> T
-   * @return PageResultWrapper<T>
+   * @return PageHttpResult<T>
    */
-  public static <T> PageResultWrapper<T> ok(List<T> data, long total, long pageIndex,
+  public static <T> PageHttpResult<T> ok(List<T> data, long total, long pageIndex,
       long pageSize) {
-    return new PageResultWrapper<>(data, total, pageIndex, pageSize);
+    return new PageHttpResult<>(data, total, pageIndex, pageSize);
   }
 
 }

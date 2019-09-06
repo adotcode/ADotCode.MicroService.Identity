@@ -2,9 +2,9 @@ package com.adotcode.oauth2server.service.application.impl;
 
 import com.adotcode.oauth2server.core.enums.i18n.LanguageEnum;
 import com.adotcode.oauth2server.core.util.i18n.I18nMessageUtils;
-import com.adotcode.oauth2server.model.output.application.KeyValueOutput;
-import com.adotcode.oauth2server.model.output.application.LanguageMessageSourceOutput;
-import com.adotcode.oauth2server.model.output.application.LanguageOutput;
+import com.adotcode.oauth2server.facade.model.output.application.KeyValueOutput;
+import com.adotcode.oauth2server.facade.model.output.application.LanguageMessageSourceOutput;
+import com.adotcode.oauth2server.facade.model.output.application.LanguageOutput;
 import com.adotcode.oauth2server.service.application.I18nService;
 import java.util.Enumeration;
 import java.util.Iterator;

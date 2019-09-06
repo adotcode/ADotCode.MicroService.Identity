@@ -1,4 +1,4 @@
-package com.adotcode.oauth2server.core.wrapper;
+package com.adotcode.oauth2server.core.response;
 
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -13,8 +13,7 @@ import lombok.NoArgsConstructor;
  * @date 2019-07-15
  */
 @NoArgsConstructor
-public class ScrollingResultWrapper<T> extends
-    ResultWrapper<ScrollingResultWrapper.ScrollingResult<T>> {
+public class ScrollingHttpResult<T> extends HttpResult<ScrollingHttpResult.ScrollingResult<T>> {
 
   /**
    * 默认返回量
@@ -53,8 +52,8 @@ public class ScrollingResultWrapper<T> extends
    * @param data list data
    * @param nextToken next start position
    */
-  private ScrollingResultWrapper(List<T> data, String nextToken) {
-    super(new ScrollingResultWrapper.ScrollingResult<>(data, nextToken, DEFAULT_TAKE));
+  private ScrollingHttpResult(List<T> data, String nextToken) {
+    super(new ScrollingHttpResult.ScrollingResult<>(data, nextToken, DEFAULT_TAKE));
   }
 
   /**
@@ -64,8 +63,8 @@ public class ScrollingResultWrapper<T> extends
    * @param nextToken next start position
    * @param take per get data count
    */
-  private ScrollingResultWrapper(List<T> data, String nextToken, long take) {
-    super(new ScrollingResultWrapper.ScrollingResult<>(data, nextToken, take));
+  private ScrollingHttpResult(List<T> data, String nextToken, long take) {
+    super(new ScrollingHttpResult.ScrollingResult<>(data, nextToken, take));
   }
 
   /**
@@ -74,8 +73,8 @@ public class ScrollingResultWrapper<T> extends
    * @param data list data
    * @param nextToken next start position
    */
-  public static <T> ScrollingResultWrapper<T> ok(List<T> data, String nextToken) {
-    return new ScrollingResultWrapper<>(data, nextToken);
+  public static <T> ScrollingHttpResult<T> ok(List<T> data, String nextToken) {
+    return new ScrollingHttpResult<>(data, nextToken);
   }
 
   /**
@@ -85,8 +84,8 @@ public class ScrollingResultWrapper<T> extends
    * @param nextToken next start position
    * @param take per get data count
    */
-  public static <T> ScrollingResultWrapper<T> ok(List<T> data, String nextToken, long take) {
-    return new ScrollingResultWrapper<>(data, nextToken, take);
+  public static <T> ScrollingHttpResult<T> ok(List<T> data, String nextToken, long take) {
+    return new ScrollingHttpResult<>(data, nextToken, take);
   }
 }
 
