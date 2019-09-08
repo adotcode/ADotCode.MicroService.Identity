@@ -23,10 +23,9 @@ import tk.mybatis.mapper.annotation.ColumnType;
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "组织机构树")
 @Table(name = "adc_organization")
-public class Organization extends BaseAdcEntity<UUID, UUID> implements Serializable {
+public class Organization extends BaseAdcEntity<UUID, UUID> implements Serializable, Cloneable {
 
   private static final long serialVersionUID = 1108999102934174844L;
-
 
   /**
    * 路径编码
@@ -63,4 +62,5 @@ public class Organization extends BaseAdcEntity<UUID, UUID> implements Serializa
   @Column(name = "`level`")
   @ApiModelProperty(value = "层级")
   private Integer level;
+
 }

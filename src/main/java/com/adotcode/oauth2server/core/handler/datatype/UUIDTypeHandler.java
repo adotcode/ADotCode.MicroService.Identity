@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedJdbcTypes;
@@ -23,24 +24,36 @@ public class UUIDTypeHandler extends BaseTypeHandler<UUID> {
   @Override
   public void setNonNullParameter(PreparedStatement ps, int i, UUID parameter, JdbcType jdbcType)
       throws SQLException {
-    ps.setObject(i, parameter, jdbcType.TYPE_CODE);
+    ps.setString(i, parameter.toString());
   }
 
   @Override
   public UUID getNullableResult(ResultSet rs, String columnName)
       throws SQLException {
-    return (UUID) rs.getObject(columnName);
+    String uuid = rs.getString(columnName);
+    if (StringUtils.isBlank(uuid)) {
+      return null;
+    }
+    return UUID.fromString(uuid);
   }
 
   @Override
   public UUID getNullableResult(ResultSet rs, int columnIndex)
       throws SQLException {
-    return (UUID) rs.getObject(columnIndex);
+    String uuid = rs.getString(columnIndex);
+    if (StringUtils.isBlank(uuid)) {
+      return null;
+    }
+    return UUID.fromString(uuid);
   }
 
   @Override
   public UUID getNullableResult(CallableStatement cs, int columnIndex)
       throws SQLException {
-    return (UUID) cs.getObject(columnIndex);
+    String uuid = cs.getString(columnIndex);
+    if (StringUtils.isBlank(uuid)) {
+      return null;
+    }
+    return UUID.fromString(uuid);
   }
 }

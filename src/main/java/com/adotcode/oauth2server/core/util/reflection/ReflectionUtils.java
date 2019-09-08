@@ -6,6 +6,7 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.reflect.FieldUtils;
 
 /**
  * 反射工具类
@@ -61,7 +62,7 @@ public class ReflectionUtils {
    */
   public static Field getFieldByAnnotation(Class entityClass,
       Class<? extends Annotation> annotationClass) {
-    Field[] fields = entityClass.getDeclaredFields();
+    Field[] fields = FieldUtils.getAllFields(entityClass);
     for (Field field : fields) {
       if (field.getAnnotation(annotationClass) != null) {
         makeAccessible(field);
@@ -80,10 +81,10 @@ public class ReflectionUtils {
    */
   public static Field getField(Class entityClass, String fieldName) {
     try {
-      Field field = entityClass.getDeclaredField(fieldName);
+      Field field = FieldUtils.getField(entityClass, fieldName);
       makeAccessible(field);
       return field;
-    } catch (NoSuchFieldException e) {
+    } catch (Exception e) {
       log.error("No Such Field Error.", e);
     }
     return null;

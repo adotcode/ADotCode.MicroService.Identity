@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import javax.persistence.Id;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -222,16 +221,7 @@ public abstract class BaseAdcServiceImpl<TEntity, TPrimaryKey> implements
    */
   @Override
   public TEntity getById(TPrimaryKey id) {
-    TEntity entity = null;
-    try {
-      entity = entityClass.getDeclaredConstructor().newInstance();
-      Field idField = ReflectionUtils.getFieldByAnnotation(entityClass, Id.class);
-      assert idField != null;
-      idField.set(entity, id);
-    } catch (Exception e) {
-      log.error("find TEntity type by id:[{}] error.", id, e);
-    }
-    return mapper.selectByPrimaryKey(entity);
+    return mapper.selectByPrimaryKey(id);
   }
 
   /**

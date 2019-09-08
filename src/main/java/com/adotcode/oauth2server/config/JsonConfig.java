@@ -61,6 +61,8 @@ public class JsonConfig {
     ParserConfig parserConfig = ParserConfig.getGlobalInstance();
     parserConfig.propertyNamingStrategy = PropertyNamingStrategy.CamelCase;
     fastJsonConfig.setParserConfig(parserConfig);
+    //"autoType is not support"问题,使用setAutoTypeSupport=true的全局设置
+    parserConfig.setAutoTypeSupport(true);
 
     //中文乱码处理
     ArrayList<MediaType> fastMediaTypes = new ArrayList<>();

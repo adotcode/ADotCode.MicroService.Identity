@@ -1,6 +1,8 @@
 server:
   port: 8080
 spring:
+  application:
+    name: oauth2server
   profiles:
     active: dev
   datasource:
@@ -21,6 +23,16 @@ spring:
   output:
     ansi:
       enabled: detect #启用彩色日志 NEVER、DETECT（推荐）、ALWAYS
+  cache:
+    type: redis
+    redis:
+      key-prefix: ${spring.application.name}
+      use-key-prefix: true
+  redis:
+    host: 47.101.55.136
+    port: 6379
+    password: risfeng
+    database: 0
 
 pagehelper:
   helper-dialect: mysql
@@ -59,8 +71,8 @@ swagger:
     base-package: com.adotcode.oauth2server.facade.endpoint
   ui:
     header: Referer
-    host-url-protocol: response
-    host-url: swagger.paas.gaodunwangxiao.com
+    host-url-protocol: https
+    host-url: petstore.swagger.io
   api-info:
     title: Adc OAuth2.0 Server
     description: A Dot Code Micro Service Application Of OAuth2 Server

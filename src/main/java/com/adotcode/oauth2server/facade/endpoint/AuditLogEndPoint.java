@@ -1,5 +1,6 @@
 package com.adotcode.oauth2server.facade.endpoint;
 
+import com.adotcode.oauth2server.core.cache.RedisService;
 import com.adotcode.oauth2server.core.exception.application.GenericException;
 import com.adotcode.oauth2server.core.exception.application.IllegalParameterException;
 import com.adotcode.oauth2server.core.exception.application.NullOrEmptyException;
@@ -9,8 +10,10 @@ import com.adotcode.oauth2server.domain.entity.Organization;
 import com.adotcode.oauth2server.service.auditlog.AuditLogService;
 import com.adotcode.oauth2server.service.organization.OrganizationService;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import javax.validation.constraints.Min;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,11 +39,16 @@ public class AuditLogEndPoint {
 
   private final OrganizationService organizationService;
 
+  private final RedisService<String, Organization> redisService;
+
   public AuditLogEndPoint(
       AuditLogService auditLogService,
-      OrganizationService organizationService) {
+      OrganizationService organizationService,
+      RedisService<String, Organization> redisService) {
     this.auditLogService = auditLogService;
     this.organizationService = organizationService;
+    this.redisService = redisService;
+    redisService.setValueSerializerType(Organization.class);
   }
 
 
@@ -88,9 +96,24 @@ public class AuditLogEndPoint {
     add.setLevel(1);
     add.setName("测试新增");
     add.setParentId(null);
-    add.setCreated(UUID.randomUUID());
+    add.setCreatedAudit(UUID.randomUUID());
     add.setVersion(1L);
     Organization result = organizationService.insertSelective(add);
+    return HttpResult.ok(result);
+  }
+
+  /**
+   * 测试
+   */
+  @GetMapping("org/{id}")
+  public HttpResult<Organization> getOrgById(@PathVariable UUID id) {
+    String key = redisService.getKey("getOrganization", id.toString());
+    Organization result = redisService.getValue(key);
+    if (ObjectUtils.isNotEmpty(result)) {
+      return HttpResult.ok(result);
+    }
+    result = organizationService.getById(id);
+    redisService.setValue(key, result, 10, TimeUnit.MINUTES);
     return HttpResult.ok(result);
   }
 }

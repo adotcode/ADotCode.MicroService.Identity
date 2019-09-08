@@ -24,8 +24,7 @@ import tk.mybatis.mapper.annotation.ColumnType;
 @Data
 public abstract class BaseAdcEntity<TPrimaryKey, TAuditBy> implements Serializable, Cloneable {
 
-  private static final long serialVersionUID = -8578434261034243867L;
-
+  private static final long serialVersionUID = -467320348822673006L;
   /**
    * 主键
    */
@@ -75,7 +74,7 @@ public abstract class BaseAdcEntity<TPrimaryKey, TAuditBy> implements Serializab
   /**
    * 是否删除
    */
-  @ApiModelProperty(value = "是否删除", dataType = "boolean", example = "true")
+  @ApiModelProperty(value = "是否删除", dataType = "Boolean", example = "true")
   @Column(name = "deleted")
   private Boolean deleted = false;
 
@@ -99,7 +98,7 @@ public abstract class BaseAdcEntity<TPrimaryKey, TAuditBy> implements Serializab
    *
    * @param createdBy 创建人
    */
-  public void setCreated(TAuditBy createdBy) {
+  public void setCreatedAudit(TAuditBy createdBy) {
     this.createdBy = createdBy;
     this.createdAt = new Date();
   }
@@ -109,7 +108,7 @@ public abstract class BaseAdcEntity<TPrimaryKey, TAuditBy> implements Serializab
    *
    * @param updatedBy 更新人
    */
-  public void setUpdated(TAuditBy updatedBy) {
+  public void setUpdatedAudit(TAuditBy updatedBy) {
     this.updatedBy = updatedBy;
     this.updatedAt = new Date();
   }
@@ -119,7 +118,7 @@ public abstract class BaseAdcEntity<TPrimaryKey, TAuditBy> implements Serializab
    *
    * @param deletedBy 删除人
    */
-  public void setDeleted(TAuditBy deletedBy) {
+  public void setDeletedAudit(TAuditBy deletedBy) {
     this.deleted = true;
     this.deletedAt = new Date();
     this.deletedBy = deletedBy;

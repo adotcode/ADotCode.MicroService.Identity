@@ -4,7 +4,7 @@
 <mapper namespace="com.adotcode.oauth2server.domain.mapper.organization.OrganizationMapper">
   <resultMap id="BaseResultMap" type="com.adotcode.oauth2server.domain.entity.Organization">
     <!--@mbg.generated generated on Wed Sep 04 23:55:47 CST 2019.-->
-    <id column="id" jdbcType="VARCHAR" property="id"
+    <id column="id" jdbcType="VARCHAR" property="id" javaType="java.util.UUID"
       typeHandler="com.adotcode.oauth2server.core.handler.datatype.UUIDTypeHandler"/>
     <result column="code" jdbcType="VARCHAR" property="code"/>
     <result column="name" jdbcType="VARCHAR" property="name"/>
@@ -20,7 +20,8 @@
       typeHandler="com.adotcode.oauth2server.core.handler.datatype.UUIDTypeHandler"/>
     <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
     <result column="deleted" jdbcType="BIT" property="deleted"/>
-    <result column="deleted_by" jdbcType="VARCHAR" property="deletedBy"/>
+    <result column="deleted_by" jdbcType="VARCHAR" property="deletedBy"
+      typeHandler="com.adotcode.oauth2server.core.handler.datatype.UUIDTypeHandler"/>
     <result column="deleted_at" jdbcType="TIMESTAMP" property="deletedAt"/>
   </resultMap>
   <sql id="Base_Column_List">
@@ -116,7 +117,8 @@
         <foreach collection="list" index="index" item="item">
           when id =
           #{item.id,jdbcType=VARCHAR,typeHandler=com.adotcode.oauth2server.core.handler.datatype.UUIDTypeHandler}
-          then #{item.deletedBy,jdbcType=VARCHAR}
+          then
+          #{item.deletedBy,jdbcType=VARCHAR,typeHandler=com.adotcode.oauth2server.core.handler.datatype.UUIDTypeHandler}
         </foreach>
       </trim>
       <trim prefix="deleted_at = case" suffix="end,">
@@ -147,7 +149,7 @@
       #{item.createdAt,jdbcType=TIMESTAMP},
       #{item.updatedBy,jdbcType=VARCHAR,typeHandler=com.adotcode.oauth2server.core.handler.datatype.UUIDTypeHandler},
       #{item.updatedAt,jdbcType=TIMESTAMP}, #{item.deleted,jdbcType=BIT},
-      #{item.deletedBy,jdbcType=VARCHAR},
+      #{item.deletedBy,jdbcType=VARCHAR,typeHandler=com.adotcode.oauth2server.core.handler.datatype.UUIDTypeHandler},
       #{item.deletedAt,jdbcType=TIMESTAMP}
     </foreach>
   </insert>
@@ -189,7 +191,7 @@
       #{updatedBy,jdbcType=VARCHAR,typeHandler=com.adotcode.oauth2server.core.handler.datatype.UUIDTypeHandler},
       #{updatedAt,jdbcType=TIMESTAMP},
       #{deleted,jdbcType=BIT},
-      #{deletedBy,jdbcType=VARCHAR},
+      #{deletedBy,jdbcType=VARCHAR,typeHandler=com.adotcode.oauth2server.core.handler.datatype.UUIDTypeHandler},
       #{deletedAt,jdbcType=TIMESTAMP},
     </trim>
     on duplicate key update
@@ -212,7 +214,8 @@
       #{updatedBy,jdbcType=VARCHAR,typeHandler=com.adotcode.oauth2server.core.handler.datatype.UUIDTypeHandler},
       updated_at = #{updatedAt,jdbcType=TIMESTAMP},
       deleted = #{deleted,jdbcType=BIT},
-      deleted_by = #{deletedBy,jdbcType=VARCHAR},
+      deleted_by =
+      #{deletedBy,jdbcType=VARCHAR,typeHandler=com.adotcode.oauth2server.core.handler.datatype.UUIDTypeHandler},
       deleted_at = #{deletedAt,jdbcType=TIMESTAMP},
     </trim>
   </insert>
@@ -303,7 +306,7 @@
         #{deleted,jdbcType=BIT},
       </if>
       <if test="deletedBy != null">
-        #{deletedBy,jdbcType=VARCHAR},
+        #{deletedBy,jdbcType=VARCHAR,typeHandler=com.adotcode.oauth2server.core.handler.datatype.UUIDTypeHandler},
       </if>
       <if test="deletedAt != null">
         #{deletedAt,jdbcType=TIMESTAMP},
@@ -352,7 +355,8 @@
         deleted = #{deleted,jdbcType=BIT},
       </if>
       <if test="deletedBy != null">
-        deleted_by = #{deletedBy,jdbcType=VARCHAR},
+        deleted_by =
+        #{deletedBy,jdbcType=VARCHAR,typeHandler=com.adotcode.oauth2server.core.handler.datatype.UUIDTypeHandler},
       </if>
       <if test="deletedAt != null">
         deleted_at = #{deletedAt,jdbcType=TIMESTAMP},

@@ -26,7 +26,7 @@ public class UUIDArrayTypeHandler extends BaseTypeHandler<UUID[]> {
   public void setNonNullParameter(PreparedStatement ps, int i, UUID[] parameter, JdbcType jdbcType)
       throws SQLException {
     Connection c = ps.getConnection();
-    Array inArray = c.createArrayOf("uuid", parameter);
+    Array inArray = c.createArrayOf("java.util.UUID", parameter);
     ps.setArray(i, inArray);
   }
 

@@ -36,14 +36,11 @@
     <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
       <level>ERROR</level>
     </filter>
-    <encoder charset="${LOG_CHARSET}">
-      <pattern>${LOG_PATTERN_COLOR}</pattern>
-    </encoder>
   </appender>
 
   <!--环境设置-->
   <springProfile name="dev">
-    <root level="INFO">
+    <root level="DEBUG">
       <appender-ref ref="STDOUT"/>
     </root>
   </springProfile>
