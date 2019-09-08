@@ -6,7 +6,7 @@
 - Alibaba Java Coding Guidelines
 - Gradle
 - MySQL
-- Redis TODO
+- Redis
 - MyBatis
 - Tk.MyBatis
 - Dynamic Data Source Switch
