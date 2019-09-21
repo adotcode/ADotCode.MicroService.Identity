@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 @Validated
-@Api(value = "应用基础信息")
+@Api(value = "应用基础信息", tags = {"应用基础信息"})
 public class ApplicationEndPoint {
 
   private final I18nService i18nService;
@@ -50,7 +50,8 @@ public class ApplicationEndPoint {
       notes = "获取系统支持语言列表",
       response = LanguageOutput.class,
       responseContainer = "List",
-      consumes = APPLICATION_JSON_UTF8_VALUE)
+      consumes = APPLICATION_JSON_UTF8_VALUE,
+      produces = APPLICATION_JSON_UTF8_VALUE)
   public ListHttpResult<LanguageOutput> getLanguages() {
     List<LanguageOutput> result = i18nService.getLanguages();
     return ListHttpResult.ok(result);
@@ -68,7 +69,8 @@ public class ApplicationEndPoint {
       notes = "根据参数l系统自动切换语言",
       response = HttpResult.class,
       responseContainer = "List",
-      consumes = APPLICATION_JSON_UTF8_VALUE)
+      consumes = APPLICATION_JSON_UTF8_VALUE,
+      produces = APPLICATION_JSON_UTF8_VALUE)
   public HttpResult changeLanguage(@RequestParam String l) {
     List<String> applicationLanguages = i18nService.getLanguages()
         .stream()
@@ -91,7 +93,8 @@ public class ApplicationEndPoint {
       notes = "获取语言资源key-value列表",
       response = LanguageMessageSourceOutput.class,
       responseContainer = "List",
-      consumes = APPLICATION_JSON_UTF8_VALUE)
+      consumes = APPLICATION_JSON_UTF8_VALUE,
+      produces = APPLICATION_JSON_UTF8_VALUE)
   public HttpResult<LanguageMessageSourceOutput> getMessageResources() {
     LanguageMessageSourceOutput result = i18nService.getLocaleMessageResources();
     return HttpResult.ok(result);

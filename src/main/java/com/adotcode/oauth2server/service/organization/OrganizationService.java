@@ -1,7 +1,7 @@
 package com.adotcode.oauth2server.service.organization;
 
 import com.adotcode.oauth2server.core.base.BaseAdcService;
-import com.adotcode.oauth2server.domain.entity.Organization;
+import com.adotcode.oauth2server.domain.entity.organization.Organization;
 import java.util.List;
 import java.util.UUID;
 

@@ -1,4 +1,4 @@
-package com.adotcode.oauth2server.domain.entity;
+package com.adotcode.oauth2server.domain.entity.organization;
 
 import com.adotcode.oauth2server.core.base.BaseAdcEntity;
 import com.adotcode.oauth2server.core.handler.datatype.UUIDTypeHandler;

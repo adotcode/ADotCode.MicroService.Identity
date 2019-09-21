@@ -1,5 +1,7 @@
 package com.adotcode.oauth2server.service.application.impl;
 
+import com.adotcode.oauth2server.core.cache.RedisService;
+import com.adotcode.oauth2server.core.constant.RedisKeyConstants;
 import com.adotcode.oauth2server.core.enums.i18n.LanguageEnum;
 import com.adotcode.oauth2server.core.util.i18n.I18nMessageUtils;
 import com.adotcode.oauth2server.facade.model.output.application.KeyValueOutput;
@@ -15,6 +17,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Service;
@@ -29,10 +32,13 @@ import org.springframework.stereotype.Service;
 public class I18nServiceImpl implements I18nService {
 
   private final ResourceBundleMessageSource messageSource;
+  private final RedisService<String, LanguageOutput> redisService;
 
   public I18nServiceImpl(
-      ResourceBundleMessageSource messageSource) {
+      ResourceBundleMessageSource messageSource,
+      RedisService<String, LanguageOutput> redisService) {
     this.messageSource = messageSource;
+    this.redisService = redisService;
   }
 
   /**
@@ -42,7 +48,12 @@ public class I18nServiceImpl implements I18nService {
    */
   @Override
   public List<LanguageOutput> getLanguages() {
-    return Stream.of(LanguageEnum.values())
+    String redisKey = RedisKeyConstants.I18nService.GET_LANGUAGES_KEY;
+    List<LanguageOutput> result = redisService.listFindAll(redisKey);
+    if (ObjectUtils.isNotEmpty(result)) {
+      return result;
+    }
+    result = Stream.of(LanguageEnum.values())
         .map(languageEnum -> {
           return new LanguageOutput(
               languageEnum.getLanguage(),
@@ -52,6 +63,12 @@ public class I18nServiceImpl implements I18nService {
               languageEnum.currentLocale());
         })
         .collect(Collectors.toList());
+    result.forEach(item -> {
+      redisService.listPush(redisKey, item);
+    });
+    redisService.expire(redisKey, RedisKeyConstants.I18nService.DEFAULT_TIME_OUT,
+        RedisKeyConstants.I18nService.DEFAULT_TIME_UNIT);
+    return result;
   }
 
   /**

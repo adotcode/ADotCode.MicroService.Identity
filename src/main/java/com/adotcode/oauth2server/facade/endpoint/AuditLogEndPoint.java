@@ -6,9 +6,10 @@ import com.adotcode.oauth2server.core.exception.application.IllegalParameterExce
 import com.adotcode.oauth2server.core.exception.application.NullOrEmptyException;
 import com.adotcode.oauth2server.core.exception.application.UnAuthorizedException;
 import com.adotcode.oauth2server.core.response.HttpResult;
-import com.adotcode.oauth2server.domain.entity.Organization;
+import com.adotcode.oauth2server.domain.entity.organization.Organization;
 import com.adotcode.oauth2server.service.auditlog.AuditLogService;
 import com.adotcode.oauth2server.service.organization.OrganizationService;
+import io.swagger.annotations.Api;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import javax.validation.constraints.Min;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 @Validated
+@Api(value = "审计日志控制器[测试控制器]", tags = {"审计日志控制器[测试控制器]"})
 public class AuditLogEndPoint {
 
 

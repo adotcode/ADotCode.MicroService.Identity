@@ -5,6 +5,7 @@ import com.adotcode.oauth2server.core.util.reflection.ReflectionUtils;
 import com.github.pagehelper.PageHelper;
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -214,6 +215,72 @@ public abstract class BaseAdcServiceImpl<TEntity, TPrimaryKey> implements
   }
 
   /**
+   * 【软删除】根据主键删除
+   *
+   * @param id id不能为空
+   * @return 影响行数
+   */
+  @Override
+  @Transactional(rollbackFor = Exception.class)
+  public int softDeleteById(TPrimaryKey id) {
+    try {
+      TEntity entity = entityClass.getDeclaredConstructor().newInstance();
+      if (entity instanceof BaseAdcEntity) {
+        Field idField = ReflectionUtils.getField(entityClass, "id");
+        assert idField != null;
+        idField.set(entity, id);
+        Field deletedField = ReflectionUtils.getField(entityClass, "deleted");
+        assert deletedField != null;
+        deletedField.set(entity, true);
+        Field deletedAtField = ReflectionUtils.getField(entityClass, "deletedAt");
+        assert deletedAtField != null;
+        deletedAtField.set(entity, new Date());
+        Field deletedByField = ReflectionUtils.getField(entityClass, "deletedBy");
+        assert deletedByField != null;
+        deletedByField.set(entity, 1);
+        updateSelective(entity);
+        return 1;
+      }
+    } catch (Exception e) {
+      log.error("softDeleteById id:[{}] error.", id, e);
+    }
+    return 0;
+  }
+
+  /**
+   * 【软删除】根据主键删除多个实体，ID数组
+   *
+   * @param ids 类似[1,2,3]，不能为空
+   * @return 影响行数
+   */
+  @Override
+  public int softDeleteByIds(TPrimaryKey[] ids) {
+    return 0;
+  }
+
+  /**
+   * 【软删除】根据实体属性作为条件进行删除
+   *
+   * @param record 删除的记录
+   * @return 影响行数
+   */
+  @Override
+  public int softDelete(TEntity record) {
+    return 0;
+  }
+
+  /**
+   * 【软删除】根据主键删除多个实体
+   *
+   * @param recordList 删除的记录
+   * @return 影响行数
+   */
+  @Override
+  public int softDelete(List<TEntity> recordList) {
+    return 0;
+  }
+
+  /**
    * 根据主键查询
    *
    * @param id 不能为空
@@ -352,5 +419,17 @@ public abstract class BaseAdcServiceImpl<TEntity, TPrimaryKey> implements
         throw new OptimisticLockException();
       }
     }
+  }
+
+  /**
+   * 检查是否支持软删除
+   * <p>
+   * 必须具有 deleted、deletedAt、deletedBy字段
+   * <p>
+   *
+   * @param record 操作记录
+   */
+  private void checkSupportSoftDelete(TEntity record) {
+    // TODO: 2019/9/11 jiance 通过@Enable**注解实现软删除判断
   }
 }

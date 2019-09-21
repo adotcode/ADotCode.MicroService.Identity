@@ -110,6 +110,38 @@ public interface BaseAdcService<TEntity, TPrimaryKey> {
   int delete(List<TEntity> recordList);
 
   /**
+   * 【软删除】根据主键删除
+   *
+   * @param id id不能为空
+   * @return 影响行数
+   */
+  int softDeleteById(TPrimaryKey id);
+
+  /**
+   * 【软删除】根据主键删除多个实体，ID数组
+   *
+   * @param ids 类似[1,2,3]，不能为空
+   * @return 影响行数
+   */
+  int softDeleteByIds(TPrimaryKey[] ids);
+
+  /**
+   * 【软删除】根据实体属性作为条件进行删除
+   *
+   * @param record 删除的记录
+   * @return 影响行数
+   */
+  int softDelete(TEntity record);
+
+  /**
+   * 【软删除】根据主键删除多个实体
+   *
+   * @param recordList 删除的记录
+   * @return 影响行数
+   */
+  int softDelete(List<TEntity> recordList);
+
+  /**
    * 根据主键查询
    *
    * @param id 不能为空

@@ -1,6 +1,6 @@
 package com.adotcode.oauth2server.domain.mapper.organization;
 
-import com.adotcode.oauth2server.domain.entity.Organization;
+import com.adotcode.oauth2server.domain.entity.organization.Organization;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 
