@@ -10,7 +10,7 @@ import com.adotcode.oauth2server.core.exception.application.NullOrEmptyException
 import com.adotcode.oauth2server.core.exception.application.ParseFailedException;
 import com.adotcode.oauth2server.core.exception.application.UnAuthorizedException;
 import com.adotcode.oauth2server.core.response.HttpResult;
-import com.adotcode.oauth2server.core.response.HttpResult.ErrorWrapper;
+import com.adotcode.oauth2server.core.response.HttpResult.ErrorResult;
 import com.adotcode.oauth2server.core.util.i18n.I18nMessageUtils;
 import java.util.List;
 import java.util.Set;
@@ -216,10 +216,10 @@ public class GlobalExceptionHandler {
           (MissingServletRequestParameterException) e;
       String message = I18nMessageUtils.translate("exception.parameter.required.not.present",
           missingServletRequestParameterException.getParameterName());
-      return HttpResult.error(ErrorWrapper.newInstance(message));
+      return HttpResult.error(ErrorResult.newInstance(message));
     }
     return HttpResult
-        .error(ErrorWrapper.newInstance(I18nMessageUtils.translate(e.getMessage())));
+        .error(ErrorResult.newInstance(I18nMessageUtils.translate(e.getMessage())));
   }
 
   /**
@@ -231,7 +231,7 @@ public class GlobalExceptionHandler {
    */
   private HttpResult wrapperErrorResult(ResultCodeEnum code, Object errorObj) {
     return HttpResult.error(code.value(), I18nMessageUtils.translate(code.reasonPhrase()),
-        ErrorWrapper.newInstance(errorObj));
+        ErrorResult.newInstance(errorObj));
   }
 
   /**
@@ -242,6 +242,6 @@ public class GlobalExceptionHandler {
    */
   private HttpResult wrapperErrorResult(BaseException e) {
     return HttpResult.error(e.getCode(), I18nMessageUtils.translate(e.getMessage()),
-        ErrorWrapper.newInstance(I18nMessageUtils.translate(e.getMessage())));
+        ErrorResult.newInstance(I18nMessageUtils.translate(e.getMessage())));
   }
 }

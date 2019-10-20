@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ApiModel(value = "键值对输出模型", description = "键值对输出模型,适用于key-value形式的输出.")
+@ApiModel(value = "KeyValueOutput", description = "键值对输出模型,适用于key-value形式的输出.")
 public class KeyValueOutput implements Serializable {
 
   private static final long serialVersionUID = -5863330394462055403L;

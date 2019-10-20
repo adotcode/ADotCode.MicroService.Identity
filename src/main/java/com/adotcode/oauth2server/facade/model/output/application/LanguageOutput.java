@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ApiModel(value = "本地化语言编码输出模型", description = "本地化语言编码列表信息输出模型")
+@ApiModel(value = "LanguageOutput", description = "本地化语言编码列表信息输出模型")
 public class LanguageOutput implements Serializable {
 
   private static final long serialVersionUID = -1109056834909541664L;

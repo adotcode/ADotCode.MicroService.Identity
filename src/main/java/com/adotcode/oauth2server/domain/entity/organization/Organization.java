@@ -21,7 +21,7 @@ import tk.mybatis.mapper.annotation.ColumnType;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "组织机构树")
+@ApiModel(value = "Organization")
 @Table(name = "adc_organization")
 public class Organization extends BaseAdcEntity<UUID, UUID> implements Serializable, Cloneable {
 

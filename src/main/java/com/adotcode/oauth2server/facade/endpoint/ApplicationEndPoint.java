@@ -3,7 +3,7 @@ package com.adotcode.oauth2server.facade.endpoint;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
 import com.adotcode.oauth2server.core.response.HttpResult;
-import com.adotcode.oauth2server.core.response.HttpResult.ErrorWrapper;
+import com.adotcode.oauth2server.core.response.HttpResult.ErrorResult;
 import com.adotcode.oauth2server.core.response.ListHttpResult;
 import com.adotcode.oauth2server.core.util.i18n.I18nMessageUtils;
 import com.adotcode.oauth2server.facade.model.output.application.LanguageMessageSourceOutput;
@@ -77,7 +77,7 @@ public class ApplicationEndPoint {
         .map(LanguageOutput::getLocale)
         .collect(Collectors.toList());
     if (!applicationLanguages.contains(l)) {
-      return HttpResult.error(ErrorWrapper
+      return HttpResult.error(ErrorResult
           .newInstance(I18nMessageUtils.translate("application.i18n.language.not.present", l)));
     }
     return HttpResult.ok();

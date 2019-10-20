@@ -41,7 +41,7 @@ public class HttpResult<T> {
   /**
    * error  details
    */
-  private ErrorWrapper error;
+  private ErrorResult error;
 
   /**
    * data result
@@ -49,8 +49,8 @@ public class HttpResult<T> {
    * @param data data
    */
   HttpResult(T data) {
-    this.code = ResultCodeEnum.SUCCESS.value();
-    this.message = I18nMessageUtils.translate(ResultCodeEnum.SUCCESS.reasonPhrase());
+    code = ResultCodeEnum.SUCCESS.value();
+    message = I18nMessageUtils.translate(ResultCodeEnum.SUCCESS.reasonPhrase());
     this.data = data;
   }
 
@@ -62,7 +62,7 @@ public class HttpResult<T> {
    * @param data data
    * @param error errorWrapper
    */
-  private HttpResult(String code, String message, T data, ErrorWrapper error) {
+  private HttpResult(String code, String message, T data, ErrorResult error) {
     this.code = code;
     this.message = message;
     this.data = data;
@@ -87,7 +87,7 @@ public class HttpResult<T> {
    * @param message message
    * @param error errorWrapper
    */
-  private HttpResult(String code, String message, ErrorWrapper error) {
+  private HttpResult(String code, String message, ErrorResult error) {
     this.code = code;
     this.message = message;
     this.error = error;
@@ -98,8 +98,8 @@ public class HttpResult<T> {
    *
    * @return HttpResult
    */
-  public static HttpResult ok() {
-    return new HttpResult(
+  public static HttpResult<Object> ok() {
+    return new HttpResult<>(
         ResultCodeEnum.SUCCESS.value(),
         I18nMessageUtils.translate(ResultCodeEnum.SUCCESS.reasonPhrase()));
   }
@@ -124,13 +124,13 @@ public class HttpResult<T> {
    *
    * @return HttpResult
    */
-  public static HttpResult error() {
+  public static HttpResult<Object> error() {
     String message = I18nMessageUtils.translate(ResultCodeEnum.ERROR.reasonPhrase());
-    ErrorWrapper errorWrapper = new ErrorWrapper(message);
-    return new HttpResult(
+    ErrorResult errorResult = new ErrorResult(message);
+    return new HttpResult<>(
         ResultCodeEnum.ERROR.value(),
         message,
-        errorWrapper);
+        errorResult);
   }
 
   /**
@@ -138,11 +138,11 @@ public class HttpResult<T> {
    *
    * @return HttpResult
    */
-  public static HttpResult error(ErrorWrapper errorWrapper) {
-    return new HttpResult(
+  public static HttpResult<Object> error(ErrorResult errorResult) {
+    return new HttpResult<>(
         ResultCodeEnum.ERROR.value(),
         I18nMessageUtils.translate(ResultCodeEnum.ERROR.reasonPhrase()),
-        errorWrapper);
+        errorResult);
   }
 
   /**
@@ -150,8 +150,8 @@ public class HttpResult<T> {
    *
    * @return HttpResult
    */
-  public static HttpResult error(String code, String message, ErrorWrapper errorWrapper) {
-    return new HttpResult(code, message, errorWrapper);
+  public static HttpResult<Object> error(String code, String message, ErrorResult errorResult) {
+    return new HttpResult<>(code, message, errorResult);
   }
 
   /**
@@ -160,7 +160,7 @@ public class HttpResult<T> {
   @Data
   @NoArgsConstructor
   @AllArgsConstructor
-  public static class ErrorWrapper {
+  public static class ErrorResult {
 
     /**
      * 资源标识
@@ -172,7 +172,7 @@ public class HttpResult<T> {
      */
     private Object message;
 
-    private ErrorWrapper(Object message) {
+    private ErrorResult(Object message) {
       this.message = message;
     }
 
@@ -180,10 +180,10 @@ public class HttpResult<T> {
      * 获取一个实例
      *
      * @param message 错误信息
-     * @return ErrorWrapper
+     * @return ErrorResult
      */
-    public static ErrorWrapper newInstance(Object message) {
-      return new ErrorWrapper(message);
+    public static ErrorResult newInstance(Object message) {
+      return new ErrorResult(message);
     }
   }
 }
